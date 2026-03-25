@@ -17,115 +17,115 @@
       --text-light: #666;
     }
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    html { scroll-snap-type: y mandatory; scroll-behavior: smooth; }
+    html { scroll-snap-type: y mandatory; }
     body { font-family: 'Noto Sans SC', sans-serif; background: var(--bg); color: var(--text); overflow-x: hidden; }
 
-    /* Snap sections - full viewport height */
     section {
       min-height: 100vh;
       scroll-snap-align: start;
       display: flex;
       flex-direction: column;
       justify-content: center;
-      padding: 5rem 1.5rem 3rem;
-      max-width: 100%;
+      padding: 4rem 1.2rem 2rem;
       position: relative;
     }
-    section > * { max-width: 600px; margin-left: auto; margin-right: auto; width: 100%; }
+    section > * { max-width: 580px; margin-left: auto; margin-right: auto; width: 100%; }
 
     /* Hero */
     .hero {
       background: linear-gradient(170deg, #1a1a1a 0%, #2a4f34 60%, #1a1a1a 100%);
       color: white;
       text-align: center;
-      padding-top: 4rem;
+      padding-top: 3rem;
     }
     .hero-poster {
-      margin-bottom: 1.2rem;
-      border-radius: 8px;
+      margin-bottom: 0.8rem;
+      border-radius: 6px;
       overflow: hidden;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.4);
       border: 2px solid rgba(255,255,255,0.1);
     }
     .hero-poster img { width: 100%; height: auto; display: block; }
-    .hero h1 { font-size: 1.8rem; font-weight: 700; margin-bottom: 0.3rem; }
-    .hero .subtitle { font-size: 1rem; color: var(--accent); margin-bottom: 0.8rem; }
-    .hero .tagline { font-size: 0.85rem; color: rgba(255,255,255,0.7); font-style: italic; margin-bottom: 1rem; }
-    .hero-badges { display: flex; gap: 0.5rem; flex-wrap: wrap; justify-content: center; margin-bottom: 1rem; }
-    .badge { background: rgba(232,197,71,0.15); border: 1px solid rgba(232,197,71,0.35); color: var(--accent); padding: 0.3rem 0.8rem; border-radius: 50px; font-size: 0.75rem; }
-    .hero-team { font-size: 0.75rem; color: rgba(255,255,255,0.5); }
-    .scroll-hint { position: absolute; bottom: 1.5rem; left: 50%; transform: translateX(-50%); opacity: 0.4; font-size: 1.2rem; animation: bounce 2s infinite; }
-    @keyframes bounce { 0%,100%{transform:translateX(-50%) translateY(0)} 50%{transform:translateX(-50%) translateY(6px)} }
+    .hero h1 { font-size: 1.6rem; font-weight: 700; margin-bottom: 0.2rem; }
+    .hero .subtitle { font-size: 0.9rem; color: var(--accent); margin-bottom: 0.6rem; }
+    .hero .tagline { font-size: 0.8rem; color: rgba(255,255,255,0.7); font-style: italic; margin-bottom: 0.8rem; }
+    .hero-badges { display: flex; gap: 0.4rem; flex-wrap: wrap; justify-content: center; margin-bottom: 0.8rem; }
+    .badge { background: rgba(232,197,71,0.15); border: 1px solid rgba(232,197,71,0.35); color: var(--accent); padding: 0.25rem 0.7rem; border-radius: 50px; font-size: 0.7rem; }
+    .hero-team { font-size: 0.7rem; color: rgba(255,255,255,0.5); }
+    .scroll-hint { position: absolute; bottom: 1rem; left: 50%; transform: translateX(-50%); opacity: 0.4; font-size: 1rem; animation: bounce 2s infinite; }
+    @keyframes bounce { 0%,100%{transform:translateX(-50%) translateY(0)} 50%{transform:translateX(-50%) translateY(5px)} }
 
     /* Section header */
-    .section-title { text-align: center; margin-bottom: 1.2rem; }
-    .section-title h2 { font-size: 1.4rem; color: var(--primary-dark); font-weight: 700; margin-bottom: 0.3rem; }
-    .section-title p { color: var(--text-light); font-size: 0.85rem; }
+    .section-title { text-align: center; margin-bottom: 0.8rem; }
+    .section-title h2 { font-size: 1.3rem; color: var(--primary-dark); font-weight: 700; margin-bottom: 0.2rem; }
+    .section-title p { color: var(--text-light); font-size: 0.8rem; }
 
     /* Quote */
-    .quote-box { background: var(--card); border-left: 3px solid var(--accent); padding: 1rem 1.2rem; border-radius: 0 8px 8px 0; margin: 1rem 0; box-shadow: 0 1px 8px rgba(0,0,0,0.06); }
-    .quote-box p { font-style: italic; font-size: 0.9rem; color: var(--text); text-align: center; }
+    .quote-box { background: var(--card); border-left: 3px solid var(--accent); padding: 0.8rem 1rem; border-radius: 0 8px 8px 0; margin: 0.6rem 0; box-shadow: 0 1px 6px rgba(0,0,0,0.06); }
+    .quote-box p { font-style: italic; font-size: 0.85rem; color: var(--text); text-align: center; line-height: 1.6; }
 
-    /* Compact cards */
-    .cards-grid { display: grid; grid-template-columns: 1fr; gap: 0.8rem; margin-top: 0.8rem; }
-    .card { background: var(--card); border-radius: 10px; padding: 1rem 1.2rem; box-shadow: 0 1px 8px rgba(0,0,0,0.06); display: flex; gap: 0.8rem; align-items: flex-start; }
-    .card-icon { font-size: 1.8rem; flex-shrink: 0; }
-    .card-content h3 { color: var(--primary-dark); font-size: 0.95rem; font-weight: 600; margin-bottom: 0.2rem; }
-    .card-content p { color: var(--text-light); font-size: 0.8rem; line-height: 1.5; }
+    /* Cards - tighter */
+    .cards-grid { display: grid; gap: 0.6rem; margin-top: 0.6rem; }
+    .card { background: var(--card); border-radius: 10px; padding: 0.9rem 1rem; box-shadow: 0 1px 8px rgba(0,0,0,0.06); display: flex; gap: 0.7rem; align-items: flex-start; }
+    .card-icon { font-size: 1.6rem; flex-shrink: 0; }
+    .card-content h3 { color: var(--primary-dark); font-size: 0.9rem; font-weight: 600; margin-bottom: 0.15rem; }
+    .card-content p { color: var(--text-light); font-size: 0.78rem; line-height: 1.45; }
 
     /* Tech */
-    .tech-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.6rem; margin-top: 0.8rem; }
-    .tech-chip { background: var(--card); padding: 0.7rem 0.8rem; border-radius: 8px; display: flex; align-items: center; gap: 0.5rem; box-shadow: 0 1px 6px rgba(0,0,0,0.05); border: 1px solid #eee; }
-    .tech-chip .icon { font-size: 1.1rem; }
-    .tech-chip .label { font-weight: 600; color: var(--primary-dark); font-size: 0.8rem; }
+    .tech-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.5rem; margin-top: 0.8rem; }
+    .tech-chip { background: var(--card); padding: 0.6rem 0.7rem; border-radius: 8px; display: flex; align-items: center; gap: 0.4rem; box-shadow: 0 1px 6px rgba(0,0,0,0.05); border: 1px solid #eee; }
+    .tech-chip .icon { font-size: 1rem; }
+    .tech-chip .label { font-weight: 600; color: var(--primary-dark); font-size: 0.75rem; }
 
     /* Stats */
-    .stats-row { display: flex; justify-content: center; gap: 2rem; margin: 1rem 0; }
+    .stats-row { display: flex; justify-content: center; gap: 1.5rem; margin: 0.8rem 0; }
     .stat { text-align: center; }
-    .stat .number { font-size: 2rem; font-weight: 700; color: var(--primary-dark); line-height: 1; }
-    .stat .label { color: var(--text-light); font-size: 0.75rem; margin-top: 0.2rem; }
+    .stat .number { font-size: 1.8rem; font-weight: 700; color: var(--primary-dark); line-height: 1; }
+    .stat .label { color: var(--text-light); font-size: 0.7rem; margin-top: 0.1rem; }
 
-    /* Cluster compact */
-    .cluster-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.6rem; margin-top: 0.8rem; }
-    .cluster-card { background: var(--card); padding: 0.8rem; border-radius: 8px; box-shadow: 0 1px 6px rgba(0,0,0,0.06); border-top: 2px solid var(--accent); }
-    .cluster-card h4 { color: var(--primary-dark); font-size: 0.8rem; margin-bottom: 0.2rem; }
-    .cluster-card p { color: var(--text-light); font-size: 0.7rem; }
+    /* Cluster */
+    .cluster-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem; margin-top: 0.6rem; }
+    .cluster-card { background: var(--card); padding: 0.7rem; border-radius: 8px; box-shadow: 0 1px 6px rgba(0,0,0,0.06); border-top: 2px solid var(--accent); }
+    .cluster-card h4 { color: var(--primary-dark); font-size: 0.75rem; margin-bottom: 0.15rem; }
+    .cluster-card p { color: var(--text-light); font-size: 0.68rem; line-height: 1.4; }
 
-    /* Future + Team */
-    .future-list { margin-top: 0.8rem; }
-    .future-item { display: flex; gap: 0.8rem; margin-bottom: 0.8rem; align-items: flex-start; }
-    .future-icon { font-size: 1.6rem; flex-shrink: 0; }
-    .future-item h4 { color: var(--primary-dark); font-size: 0.9rem; font-weight: 600; margin-bottom: 0.1rem; }
-    .future-item p { color: var(--text-light); font-size: 0.8rem; }
+    /* Future */
+    .future-list { margin-top: 0.6rem; }
+    .future-item { display: flex; gap: 0.7rem; margin-bottom: 0.7rem; align-items: flex-start; }
+    .future-icon { font-size: 1.4rem; flex-shrink: 0; }
+    .future-item h4 { color: var(--primary-dark); font-size: 0.88rem; font-weight: 600; margin-bottom: 0.1rem; }
+    .future-item p { color: var(--text-light); font-size: 0.78rem; }
 
-    /* Team compact */
-    .team-row { display: flex; justify-content: center; gap: 1.5rem; margin-top: 1rem; flex-wrap: wrap; }
+    /* Team */
+    .team-row { display: flex; justify-content: center; gap: 1.2rem; margin-top: 0.8rem; }
     .team-member { text-align: center; }
-    .team-avatar { width: 50px; height: 50px; border-radius: 50%; background: linear-gradient(135deg, var(--primary), var(--primary-dark)); color: white; display: flex; align-items: center; justify-content: center; font-size: 1.3rem; margin: 0 auto 0.3rem; }
-    .team-member h4 { font-weight: 500; font-size: 0.75rem; }
+    .team-avatar { width: 46px; height: 46px; border-radius: 50%; background: linear-gradient(135deg, var(--primary), var(--primary-dark)); color: white; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; margin: 0 auto 0.25rem; }
+    .team-member h4 { font-weight: 500; font-size: 0.7rem; }
 
-    /* Footer */
-    footer { background: #1a1a1a; color: white; text-align: center; padding: 1.5rem 2rem; scroll-snap-align: start; }
-    footer .brand { font-size: 1rem; margin-bottom: 0.3rem; font-weight: 700; }
-    footer p { opacity: 0.6; font-size: 0.75rem; }
-    footer .studio { font-size: 0.7rem; opacity: 0.4; margin-top: 0.2rem; }
+    footer { background: #1a1a1a; color: white; text-align: center; padding: 1.2rem 2rem; scroll-snap-align: start; }
+    footer .brand { font-size: 0.9rem; margin-bottom: 0.2rem; font-weight: 700; }
+    footer p { opacity: 0.6; font-size: 0.7rem; }
+    footer .studio { font-size: 0.65rem; opacity: 0.4; margin-top: 0.15rem; }
 
-    /* Desktop: make sections 2-column */
+    /* Desktop */
     @media (min-width: 768px) {
-      section { padding: 4rem 2rem; }
-      section > * { max-width: 900px; }
-      .cards-grid { grid-template-columns: repeat(3, 1fr); }
-      .cluster-grid { grid-template-columns: repeat(3, 1fr); }
-      .hero h1 { font-size: 2.4rem; }
-      .hero .subtitle { font-size: 1.2rem; }
-      .section-title h2 { font-size: 1.6rem; }
-      .card { padding: 1.2rem; }
+      section > * { max-width: 860px; }
+      section { padding: 5rem 2rem 3rem; }
+      .cards-grid { grid-template-columns: repeat(3, 1fr); gap: 0.8rem; }
+      .tech-grid { grid-template-columns: repeat(4, 1fr); gap: 0.7rem; }
+      .hero h1 { font-size: 2.2rem; }
+      .hero .subtitle { font-size: 1.1rem; }
+      .section-title h2 { font-size: 1.5rem; }
+      .card { padding: 1.1rem; }
+      .card-icon { font-size: 2rem; }
+      .card-content h3 { font-size: 1rem; }
+      .card-content p { font-size: 0.85rem; }
     }
   </style>
 </head>
 <body>
 
-<!-- Screen 1: Hero + About -->
+<!-- Screen 1: Hero -->
 <section class="hero" id="hero">
   <div class="hero-poster">
     <img src="images/hero-title.png" alt="燕园主理人">
@@ -142,7 +142,7 @@
   <div class="scroll-hint">↓</div>
 </section>
 
-<!-- About section -->
+<!-- Screen 2: About -->
 <section id="about">
   <div class="section-title">
     <h2>关于项目</h2>
@@ -176,7 +176,7 @@
   </div>
 </section>
 
-<!-- Screen 2: Game Design -->
+<!-- Screen 3: Game -->
 <section id="game">
   <div class="section-title">
     <h2>游戏设计</h2>
@@ -187,7 +187,7 @@
       <div class="card-icon">📍</div>
       <div class="card-content">
         <h3>定位发现</h3>
-        <p>地理围栏+GPS，现实中发现地块，"你画我猜"式验证解锁空间。</p>
+        <p>地理围栏+GPS，现实中发现地块，"你画我猜"式验证解锁。</p>
       </div>
     </div>
     <div class="card">
@@ -214,7 +214,7 @@
   </div>
 </section>
 
-<!-- Screen 3: Tech -->
+<!-- Screen 4: Tech -->
 <section id="tech">
   <div class="section-title">
     <h2>技术架构</h2>
@@ -232,7 +232,7 @@
   </div>
 </section>
 
-<!-- Screen 4: Data -->
+<!-- Screen 5: Data -->
 <section id="data">
   <div class="section-title">
     <h2>数据分析</h2>
@@ -250,7 +250,7 @@
   </div>
 </section>
 
-<!-- Screen 5: Future + Team -->
+<!-- Screen 6: Future + Team -->
 <section id="future">
   <div class="section-title">
     <h2>未来愿景</h2>
@@ -269,7 +269,7 @@
       <div><h4>输出方案</h4><p>提供"公众参与"设计的低门槛解决方案。</p></div>
     </div>
   </div>
-  <div class="section-title" style="margin-top:1.5rem;">
+  <div class="section-title" style="margin-top:1.2rem;">
     <h2>团队成员</h2>
   </div>
   <div class="team-row">
@@ -282,12 +282,10 @@
 
 <footer>
   <div class="brand">🏛️ 燕园主理人</div>
-  <p>"玩"成每个人的公共空间创意</p>
-  <p class="studio">Y³ & L¹ Studio</p>
+  <p>"玩"成每个人的公共空间创意 · Y³ & L¹ Studio</p>
 </footer>
 
 <script>
-  // Counter animation
   const counters = document.querySelectorAll('.number[data-target]');
   let started = false;
   function startCounters() {
