@@ -16,7 +16,6 @@
       --card: #ffffff;
       --text: #2c2c2c;
       --text-light: #666;
-      --pixel: #1a1a1a;
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -30,13 +29,47 @@
       overflow-x: hidden;
     }
 
+    /* Floating Pixel Decorations */
+    .pixel-deco {
+      position: absolute;
+      image-rendering: pixelated;
+      pointer-events: none;
+      z-index: 1;
+    }
+    .pixel-deco.duck {
+      width: 60px;
+      height: auto;
+      animation: floatAround 6s ease-in-out infinite;
+    }
+    .pixel-deco.bird {
+      width: 50px;
+      height: auto;
+      animation: floatAround 8s ease-in-out infinite reverse;
+    }
+    .pixel-deco.rabbit {
+      width: 70px;
+      height: auto;
+      animation: floatAround 7s ease-in-out infinite 1s;
+    }
+    .pixel-deco.island {
+      width: 80px;
+      height: auto;
+      animation: floatAround 9s ease-in-out infinite 2s;
+    }
+
+    @keyframes floatAround {
+      0%, 100% { transform: translateY(0) rotate(-3deg); }
+      25% { transform: translateY(-8px) rotate(2deg); }
+      50% { transform: translateY(-4px) rotate(-2deg); }
+      75% { transform: translateY(-10px) rotate(3deg); }
+    }
+
     /* Nav */
     .nav {
       position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
       padding: 1rem 2rem;
       background: rgba(26,26,26,0.92);
       backdrop-filter: blur(8px);
-      transition: background 0.3s;
     }
     .nav-inner { max-width: 1100px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
     .nav-logo { font-size: 1.2rem; font-weight: 700; color: var(--accent); text-decoration: none; }
@@ -52,107 +85,82 @@
       justify-content: center;
       align-items: center;
       text-align: center;
-      background: linear-gradient(170deg, #1a1a1a 0%, #2a4f34 60%, #1a1a1a 100%);
+      background: linear-gradient(170deg, #1a1a1a 0%, #2a4f34 55%, #1a1a1a 100%);
       color: white;
       padding: 6rem 2rem 4rem;
       position: relative;
       overflow: hidden;
     }
-
     .hero::before {
       content: '';
       position: absolute;
       top: 0; left: 0; right: 0; bottom: 0;
-      background: radial-gradient(ellipse at 30% 40%, rgba(232,197,71,0.12) 0%, transparent 50%),
-                  radial-gradient(ellipse at 70% 60%, rgba(61,107,74,0.2) 0%, transparent 50%);
+      background: radial-gradient(ellipse at 30% 40%, rgba(232,197,71,0.1) 0%, transparent 50%);
       pointer-events: none;
     }
-
     .hero-poster {
       position: relative;
       z-index: 2;
-      max-width: 900px;
+      max-width: 860px;
       width: 100%;
       margin-bottom: 2rem;
-      border-radius: 8px;
+      border-radius: 10px;
       overflow: hidden;
       box-shadow: 0 20px 60px rgba(0,0,0,0.5);
-      border: 3px solid rgba(255,255,255,0.1);
+      border: 2px solid rgba(255,255,255,0.1);
     }
-
-    .hero-poster img {
-      width: 100%;
-      height: auto;
-      display: block;
-      object-fit: contain;
-    }
-
+    .hero-poster img { width: 100%; height: auto; display: block; object-fit: contain; }
     .hero-content { position: relative; z-index: 2; }
-    .hero h1 {
-      font-size: 2.8rem;
-      font-weight: 700;
-      color: white;
-      margin-bottom: 0.5rem;
-      text-shadow: 0 2px 20px rgba(0,0,0,0.5);
-    }
-    .hero .subtitle {
-      font-size: 1.2rem;
-      color: var(--accent);
-      font-weight: 500;
-      margin-bottom: 1rem;
-    }
-    .hero .tagline {
-      font-size: 1rem;
-      color: rgba(255,255,255,0.75);
-      font-style: italic;
-      margin-bottom: 1.5rem;
-    }
+    .hero h1 { font-size: 2.6rem; font-weight: 700; color: white; margin-bottom: 0.5rem; }
+    .hero .subtitle { font-size: 1.2rem; color: var(--accent); font-weight: 500; margin-bottom: 1rem; }
+    .hero .tagline { font-size: 1rem; color: rgba(255,255,255,0.7); font-style: italic; margin-bottom: 1.5rem; }
     .hero-badges { display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center; margin-bottom: 1.5rem; }
-    .badge {
-      background: rgba(232,197,71,0.15);
-      border: 1px solid rgba(232,197,71,0.4);
-      color: var(--accent-light);
-      padding: 0.4rem 1rem;
-      border-radius: 50px;
-      font-size: 0.85rem;
-    }
+    .badge { background: rgba(232,197,71,0.15); border: 1px solid rgba(232,197,71,0.35); color: var(--accent-light); padding: 0.4rem 1rem; border-radius: 50px; font-size: 0.85rem; }
     .hero-team { font-size: 0.85rem; color: rgba(255,255,255,0.5); }
     .scroll-hint { position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; gap: 0.5rem; animation: bounce 2s infinite; opacity: 0.5; }
-    .scroll-hint span { font-size: 1.5rem; }
     @keyframes bounce { 0%,100%{transform:translateX(-50%) translateY(0)} 50%{transform:translateX(-50%) translateY(8px)} }
 
     /* Sections */
-    section { padding: 5rem 2rem; max-width: 1100px; margin: 0 auto; }
+    section { padding: 5rem 2rem; max-width: 1100px; margin: 0 auto; position: relative; }
+
     .section-title { text-align: center; margin-bottom: 3rem; }
     .section-title h2 { font-size: 1.8rem; color: var(--primary-dark); margin-bottom: 0.5rem; font-weight: 700; }
     .section-title p { color: var(--text-light); }
 
+    /* Stutter/Reveal Animation */
+    @keyframes stutterIn {
+      0%   { opacity: 0; transform: translateY(30px) scale(0.96); }
+      15%  { opacity: 1; transform: translateY(-4px) scale(1.01); }
+      25%  { transform: translateY(2px) scale(0.99); }
+      35%  { transform: translateY(-2px) scale(1.005); }
+      45%  { transform: translateY(0) scale(1); }
+      100% { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .stutter { opacity: 0; }
+    .stutter.active { animation: stutterIn 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards; }
+
     /* Cards */
     .cards-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; }
-    .card { background: var(--card); border-radius: 12px; padding: 1.8rem; box-shadow: 0 2px 20px rgba(0,0,0,0.06); transition: all 0.3s ease; }
+    .card { background: var(--card); border-radius: 12px; padding: 1.8rem; box-shadow: 0 2px 20px rgba(0,0,0,0.06); transition: transform 0.3s, box-shadow 0.3s; }
     .card:hover { transform: translateY(-6px); box-shadow: 0 12px 40px rgba(0,0,0,0.12); }
     .card-icon { font-size: 2.5rem; margin-bottom: 0.75rem; }
     .card h3 { color: var(--primary-dark); margin-bottom: 0.6rem; font-size: 1.1rem; font-weight: 600; }
     .card p { color: var(--text-light); font-size: 0.95rem; }
 
     /* Quote */
-    .quote-box {
-      background: var(--card);
-      border-left: 4px solid var(--accent);
-      padding: 1.5rem 2rem;
-      margin: 2rem auto;
-      max-width: 700px;
-      border-radius: 0 12px 12px 0;
-      box-shadow: 0 2px 16px rgba(0,0,0,0.06);
-    }
+    .quote-box { background: var(--card); border-left: 4px solid var(--accent); padding: 1.5rem 2rem; margin: 2rem auto; max-width: 700px; border-radius: 0 12px 12px 0; box-shadow: 0 2px 16px rgba(0,0,0,0.06); }
     .quote-box p { font-style: italic; color: var(--text); font-size: 1.05rem; text-align: center; }
 
-    /* Pixel Gallery */
-    .pixel-gallery { display: flex; flex-wrap: wrap; gap: 1.5rem; justify-content: center; margin: 2rem 0; }
-    .pixel-item { background: var(--card); border-radius: 10px; padding: 1rem; box-shadow: 0 2px 12px rgba(0,0,0,0.06); text-align: center; transition: all 0.3s; }
-    .pixel-item:hover { transform: translateY(-4px); box-shadow: 0 8px 25px rgba(0,0,0,0.1); }
-    .pixel-item img { max-width: 150px; max-height: 100px; image-rendering: pixelated; border: 2px solid #333; border-radius: 4px; }
-    .pixel-item p { margin-top: 0.5rem; font-size: 0.8rem; color: var(--text-light); }
+    /* Pixel art pop-in inside sections */
+    .pixel-pop {
+      position: absolute;
+      image-rendering: pixelated;
+      opacity: 0.85;
+      pointer-events: none;
+      transition: transform 0.3s ease;
+    }
+    .pixel-pop:hover { transform: scale(1.15) rotate(5deg); }
 
     /* Tech */
     .tech-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; }
@@ -187,19 +195,17 @@
     .team-member h4 { font-weight: 500; font-size: 0.9rem; }
 
     /* Footer */
-    footer { background: var(--pixel); color: white; text-align: center; padding: 3rem 2rem; }
+    footer { background: #1a1a1a; color: white; text-align: center; padding: 3rem 2rem; }
     footer .brand { font-size: 1.3rem; margin-bottom: 0.5rem; font-weight: 700; }
     footer p { opacity: 0.6; font-size: 0.85rem; }
     footer .studio { margin-top: 0.5rem; font-size: 0.75rem; opacity: 0.4; }
-
-    /* Reveal */
-    .reveal { opacity: 0; transform: translateY(25px); transition: all 0.5s ease; }
-    .reveal.active { opacity: 1; transform: translateY(0); }
 
     @media (max-width: 768px) {
       .hero h1 { font-size: 2rem; }
       section { padding: 3rem 1.5rem; }
       .nav-links { display: none; }
+      .pixel-deco { display: none; }
+      .pixel-pop { display: none; }
     }
   </style>
 </head>
@@ -218,7 +224,13 @@
   </div>
 </nav>
 
-<section class="hero">
+<!-- Hero with floating pixel decorations -->
+<section class="hero" style="position:relative;">
+  <img class="pixel-deco rabbit" src="images/兔子.png" style="top:12%;left:5%;" alt="">
+  <img class="pixel-deco bird" src="images/呆呆鸟.png" style="top:20%;right:8%;" alt="">
+  <img class="pixel-deco island" src="images/像素风小岛.png" style="bottom:18%;left:6%;" alt="">
+  <img class="pixel-deco duck" src="images/余修宽踢杨锡兰 像素风.png" style="bottom:15%;right:5%;" alt="">
+
   <div class="hero-poster">
     <img src="images/hero-title.png" alt="燕园主理人">
   </div>
@@ -236,26 +248,28 @@
   <div class="scroll-hint"><span>↓</span></div>
 </section>
 
+<!-- About -->
 <section id="about">
-  <div class="section-title">
+  <img class="pixel-pop" src="images/兔子.png" style="top:15%;right:3%;width:55px;" alt="">
+  <div class="section-title stutter">
     <h2>关于项目</h2>
     <p>规划不是自上而下的蓝图，而是自下而上的对话</p>
   </div>
-  <div class="quote-box">
+  <div class="quote-box stutter">
     <p>城市化进程过快，规划决策与实际需求脱节。我们相信：游戏化可以成为公众参与城市治理的新媒介。</p>
   </div>
   <div class="cards-grid">
-    <div class="card reveal">
+    <div class="card stutter">
       <div class="card-icon">🎯</div>
       <h3>打破空间壁垒</h3>
       <p>虚拟城市空间与现实空间深度互动，游戏化媒介成为公众参与规划的有效路径。</p>
     </div>
-    <div class="card reveal">
+    <div class="card stutter">
       <div class="card-icon">🚪</div>
       <h3>降低参与门槛</h3>
       <p>严肃游戏融合互动机制与情境模拟，让全年龄段都能参与复杂规划。</p>
     </div>
-    <div class="card reveal">
+    <div class="card stutter">
       <div class="card-icon">⚡</div>
       <h3>提升参与效率</h3>
       <p>虚拟界面让居民直接进行空间布局，数据收集效率远高于传统调研。</p>
@@ -263,99 +277,101 @@
   </div>
 </section>
 
+<!-- Game -->
 <section id="game">
-  <div class="section-title">
+  <img class="pixel-pop" src="images/像素风小岛.png" style="top:10%;left:2%;width:60px;" alt="">
+  <img class="pixel-pop" src="images/李明选 杨文静像素风奔跑.png" style="top:20%;right:4%;width:80px;" alt="">
+  <div class="section-title stutter">
     <h2>游戏设计</h2>
     <p>15-30分钟完成"发现-改造-效益"循环</p>
   </div>
   <div class="cards-grid">
-    <div class="card reveal">
+    <div class="card stutter">
       <div class="card-icon">📍</div>
       <h3>定位发现</h3>
       <p>地理围栏 + GPS，现实中发现地块、"你画我猜"式验证解锁空间。</p>
     </div>
-    <div class="card reveal">
+    <div class="card stutter">
       <div class="card-icon">🏗️</div>
       <h3>网格建造</h3>
       <p>130+物品，4大类（设施/装饰/植被/铺装），放置·旋转·删除·叠加。</p>
     </div>
-    <div class="card reveal">
+    <div class="card stutter">
       <div class="card-icon">🤖</div>
       <h3>AI NPC</h3>
       <p>DeepSeek API 驱动，Raby 兔子陪你对话，解锁任务限定装扮。</p>
     </div>
-    <div class="card reveal">
+    <div class="card stutter">
       <div class="card-icon">☁️</div>
       <h3>云端存档</h3>
       <p>LeanCloud 支持数据云同步，好友校园互联互通。</p>
     </div>
   </div>
-
-  <h3 style="text-align:center; margin-top:3rem; color:var(--primary-dark); font-size:1.2rem;">🎨 像素美术素材</h3>
-  <div class="pixel-gallery">
-    <div class="pixel-item"><img src="images/像素风小岛.png" alt=""><p>像素风小岛</p></div>
-    <div class="pixel-item"><img src="images/兔子.png" alt=""><p>Raby 兔子</p></div>
-    <div class="pixel-item"><img src="images/呆呆鸟.png" alt=""><p>呆呆鸟 NPC</p></div>
-    <div class="pixel-item"><img src="images/余修宽踢杨锡兰 像素风.png" alt=""><p>角色像素</p></div>
-    <div class="pixel-item"><img src="images/李明选 杨文静像素风奔跑.png" alt=""><p>奔跑动画</p></div>
-  </div>
 </section>
 
+<!-- Tech -->
 <section id="tech">
-  <div class="section-title">
+  <img class="pixel-pop" src="images/呆呆鸟.png" style="bottom:15%;right:3%;width:50px;" alt="">
+  <div class="section-title stutter">
     <h2>技术架构</h2>
     <p>Unity · LeanCloud · DeepSeek · K-means</p>
   </div>
   <div class="tech-grid">
-    <div class="tech-chip reveal"><span class="icon">🎮</span><span class="label">Unity 引擎</span></div>
-    <div class="tech-chip reveal"><span class="icon">🗄️</span><span class="label">LeanCloud</span></div>
-    <div class="tech-chip reveal"><span class="icon">🤖</span><span class="label">DeepSeek API</span></div>
-    <div class="tech-chip reveal"><span class="icon">📍</span><span class="label">地理围栏 GPS</span></div>
-    <div class="tech-chip reveal"><span class="icon">📊</span><span class="label">K-means 聚类</span></div>
-    <div class="tech-chip reveal"><span class="icon">🖼️</span><span class="label">图像处理</span></div>
-    <div class="tech-chip reveal"><span class="icon">🎨</span><span class="label">像素美术</span></div>
-    <div class="tech-chip reveal"><span class="icon">📱</span><span class="label">安卓 + Windows</span></div>
+    <div class="tech-chip stutter"><span class="icon">🎮</span><span class="label">Unity 引擎</span></div>
+    <div class="tech-chip stutter"><span class="icon">🗄️</span><span class="label">LeanCloud</span></div>
+    <div class="tech-chip stutter"><span class="icon">🤖</span><span class="label">DeepSeek API</span></div>
+    <div class="tech-chip stutter"><span class="icon">📍</span><span class="label">地理围栏 GPS</span></div>
+    <div class="tech-chip stutter"><span class="icon">📊</span><span class="label">K-means 聚类</span></div>
+    <div class="tech-chip stutter"><span class="icon">🖼️</span><span class="label">图像处理</span></div>
+    <div class="tech-chip stutter"><span class="icon">🎨</span><span class="label">像素美术</span></div>
+    <div class="tech-chip stutter"><span class="icon">📱</span><span class="label">安卓 + Windows</span></div>
   </div>
 </section>
 
+<!-- Data -->
 <section id="data">
-  <div class="section-title">
+  <img class="pixel-pop" src="images/兔子.png" style="top:12%;left:3%;width:50px;" alt="">
+  <div class="section-title stutter">
     <h2>数据分析</h2>
     <p>18名玩家 · 130+物品 · 3种空间类型</p>
   </div>
   <div class="stats-row">
-    <div class="stat reveal"><div class="number" data-target="18">0</div><div class="label">内测玩家</div></div>
-    <div class="stat reveal"><div class="number" data-target="130">0</div><div class="label">建造物品</div></div>
-    <div class="stat reveal"><div class="number" data-target="3">0</div><div class="label">空间类型</div></div>
+    <div class="stat stutter"><div class="number" data-target="18">0</div><div class="label">内测玩家</div></div>
+    <div class="stat stutter"><div class="number" data-target="130">0</div><div class="label">建造物品</div></div>
+    <div class="stat stutter"><div class="number" data-target="3">0</div><div class="label">空间类型</div></div>
   </div>
   <div class="cluster-grid">
-    <div class="cluster-card reveal"><h4>🌿 景观导向型</h4><p>绿地占主导，景观丰富的空间类型。</p></div>
-    <div class="cluster-card reveal"><h4>🏢 集中核心型</h4><p>建筑密度较高、结构集中的布局。</p></div>
-    <div class="cluster-card reveal"><h4>🛤️ 交通导向型</h4><p>道路结构复杂、空间碎片化的区域。</p></div>
+    <div class="cluster-card stutter"><h4>🌿 景观导向型</h4><p>绿地占主导，景观丰富的空间类型。</p></div>
+    <div class="cluster-card stutter"><h4>🏢 集中核心型</h4><p>建筑密度较高、结构集中的布局。</p></div>
+    <div class="cluster-card stutter"><h4>🛤️ 交通导向型</h4><p>道路结构复杂、空间碎片化的区域。</p></div>
   </div>
 </section>
 
+<!-- Future -->
 <section id="future">
-  <div class="section-title">
+  <img class="pixel-pop" src="images/像素风小岛.png" style="bottom:10%;right:4%;width:65px;" alt="">
+  <img class="pixel-pop" src="images/余修宽踢杨锡兰 像素风.png" style="bottom:20%;left:3%;width:90px;" alt="">
+  <div class="section-title stutter">
     <h2>未来愿景</h2>
     <p>让"空间共创"连接更真实</p>
   </div>
   <div class="future-list">
-    <div class="future-item reveal"><div class="future-icon">🏫</div><div><h4>落地校园</h4><p>与校园营建社合作，让热门提案落地为现实设施。</p></div></div>
-    <div class="future-item reveal"><div class="future-icon">🌉</div><div><h4>连接现实</h4><p>以游戏为桥，走进更多城市微更新场景。</p></div></div>
-    <div class="future-item reveal"><div class="future-icon">💡</div><div><h4>输出方案</h4><p>提供"公众参与"设计的低门槛解决方案。</p></div></div>
+    <div class="future-item stutter"><div class="future-icon">🏫</div><div><h4>落地校园</h4><p>与校园营建社合作，让热门提案落地为现实设施。</p></div></div>
+    <div class="future-item stutter"><div class="future-icon">🌉</div><div><h4>连接现实</h4><p>以游戏为桥，走进更多城市微更新场景。</p></div></div>
+    <div class="future-item stutter"><div class="future-icon">💡</div><div><h4>输出方案</h4><p>提供"公众参与"设计的低门槛解决方案。</p></div></div>
   </div>
 </section>
 
+<!-- Team -->
 <section id="team">
-  <div class="section-title">
+  <div class="section-title stutter">
     <h2>团队成员</h2>
   </div>
   <div class="team-grid">
-    <div class="team-member reveal"><div class="team-avatar">👤</div><h4>李明选</h4></div>
-    <div class="team-member reveal"><div class="team-avatar">👤</div><h4>余修宽</h4></div>
-    <div class="team-member reveal"><div class="team-avatar">👤</div><h4>杨文静</h4></div>
-    <div class="team-member reveal"><div class="team-avatar">👤</div><h4>杨希澜</h4></div>
+    <div class="team-member stutter"><div class="team-avatar">👤</div><h4>李明选</h4></div>
+    <div class="team-member stutter"><div class="team-avatar">👤</div><h4>余修宽</h4></div>
+    <div class="team-member stutter"><div class="team-avatar">👤</div><h4>杨文静</h4></div>
+    <div class="team-member stutter"><div class="team-avatar">👤</div><h4>杨希澜</h4></div>
   </div>
 </section>
 
@@ -366,26 +382,28 @@
 </footer>
 
 <script>
-  const nav = document.querySelector('.nav');
-  window.addEventListener('scroll', () => {
-    nav.style.background = window.scrollY > 50 ? 'rgba(26,26,26,0.98)' : 'rgba(26,26,26,0.92)';
-  });
-  const reveals = document.querySelectorAll('.reveal');
+  // Scroll stutter effect
+  const stutters = document.querySelectorAll('.stutter');
   const io = new IntersectionObserver(entries => {
-    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('active'); });
-  }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
-  reveals.forEach(el => io.observe(el));
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('active');
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+  stutters.forEach(el => io.observe(el));
+
+  // Counter animation
   const counters = document.querySelectorAll('.number[data-target]');
   let started = false;
   function startCounters() {
     counters.forEach(c => {
       const target = parseInt(c.dataset.target);
-      const dur = 1800;
-      const st = performance.now();
+      const dur = 1800, st = performance.now();
       function up(t) {
         const p = Math.min((t - st) / dur, 1);
-        const e = 1 - Math.pow(1 - p, 3);
-        c.textContent = target > 100 ? Math.floor(target * e) + '+' : Math.floor(target * e);
+        const ease = 1 - Math.pow(1 - p, 3);
+        c.textContent = target > 100 ? Math.floor(target * ease) + '+' : Math.floor(target * ease);
         if (p < 1) requestAnimationFrame(up);
       }
       requestAnimationFrame(up);
