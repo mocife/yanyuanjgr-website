@@ -5,110 +5,576 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>燕园主理人 — 玩成每个人的公共空间创意</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
   <style>
-    :root{--primary:#2d5a3d;--primary-light:#3d7a52;--accent:#c9a84c;--bg:#f8f6f1;--card-bg:#ffffff;--text:#2c2c2c;--text-light:#666}
-    *{margin:0;padding:0;box-sizing:border-box}
-    html{scroll-behavior:smooth}
-    body{font-family:'Noto Sans SC',sans-serif;background:var(--bg);color:var(--text);line-height:1.8;overflow-x:hidden}
-    .nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:1rem 2rem;transition:all .3s ease}
-    .nav.scrolled{background:rgba(255,255,255,.95);backdrop-filter:blur(10px);box-shadow:0 2px 20px rgba(0,0,0,.08);padding:.75rem 2rem}
-    .nav-inner{max-width:1200px;margin:0 auto;display:flex;justify-content:space-between;align-items:center}
-    .nav-logo{font-size:1.3rem;font-weight:700;color:var(--primary);text-decoration:none}
-    .nav-links{display:flex;gap:2rem;list-style:none}
-    .nav-links a{color:var(--text);text-decoration:none;font-size:.95rem}
-    .hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;background:linear-gradient(135deg,var(--primary) 0%,#1a3d2a 100%);color:white;padding:2rem;position:relative;overflow:hidden}
-    .hero::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;background:url(images/campus-bg.png) center/cover no-repeat;opacity:.25;filter:grayscale(30%)}
-    .hero::after{content:'';position:absolute;top:-50%;right:-30%;width:80%;height:200%;background:radial-gradient(ellipse,rgba(201,168,76,.2) 0%,transparent 70%);pointer-events:none}
-    .hero-content{position:relative;z-index:2}
-    .hero-logo{font-size:5rem;margin-bottom:1rem;animation:float 3s ease-in-out infinite}
-    @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
-    .hero h1{font-size:3.5rem;font-weight:700;margin-bottom:.5rem;letter-spacing:.05em}
-    .hero .subtitle{font-size:1.4rem;opacity:.9;margin-bottom:1rem}
-    .hero .tagline{font-size:1.2rem;opacity:.8;font-style:italic;margin-bottom:2rem}
-    .hero-badges{display:flex;gap:1rem;flex-wrap:wrap;justify-content:center;margin-bottom:2rem}
-    .badge{background:rgba(255,255,255,.15);padding:.5rem 1.2rem;border-radius:50px;font-size:.9rem;border:1px solid rgba(255,255,255,.2)}
-    .hero-team{margin-top:2rem;font-size:.95rem;opacity:.8}
-    .scroll-hint{position:absolute;bottom:2rem;display:flex;flex-direction:column;align-items:center;gap:.5rem;animation:bounce 2s infinite;opacity:.7}
-    @keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(8px)}}
-    section{padding:5rem 2rem;max-width:1200px;margin:0 auto}
-    .section-title{text-align:center;margin-bottom:3rem}
-    .section-title h2{font-size:2rem;color:var(--primary);margin-bottom:.5rem}
-    .section-title p{color:var(--text-light)}
-    .section-title .en{font-size:.85rem;text-transform:uppercase;letter-spacing:.15em;opacity:.5}
-    .cards-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1.5rem}
-    .card{background:var(--card-bg);border-radius:12px;padding:1.8rem;box-shadow:0 2px 16px rgba(0,0,0,.06);transition:all .3s ease}
-    .card:hover{transform:translateY(-5px);box-shadow:0 12px 30px rgba(0,0,0,.1)}
-    .card-icon{font-size:2.5rem;margin-bottom:1rem}
-    .card h3{color:var(--primary);margin-bottom:.75rem;font-size:1.1rem}
-    .card p{color:var(--text-light);font-size:.95rem}
-    .card .tag{display:inline-block;background:var(--accent);color:white;padding:.2rem .6rem;border-radius:4px;font-size:.75rem;margin-top:.5rem}
-    .quote-box{background:var(--card-bg);border-left:4px solid var(--accent);padding:1.5rem 2rem;margin:2rem auto;max-width:750px;border-radius:0 8px 8px 0;box-shadow:0 2px 12px rgba(0,0,0,.06)}
-    .quote-box p{font-style:italic;font-size:1.1rem;color:var(--text);text-align:center}
-    .game-intro{background:var(--card-bg);border-radius:16px;padding:2.5rem;box-shadow:0 4px 24px rgba(0,0,0,.06)}
-    .game-intro h3{color:var(--primary);margin-bottom:1rem;font-size:1.3rem}
-    .core-play{background:linear-gradient(135deg,var(--primary),var(--primary-light));color:white;padding:1.5rem 2rem;border-radius:10px;margin:1rem 0;font-size:1.05rem;line-height:1.8}
-    .game-meta{display:flex;flex-wrap:wrap;gap:1.5rem;margin-top:1.5rem}
-    .meta-item{display:flex;align-items:center;gap:.5rem}
-    .meta-item span:first-child{font-weight:600;color:var(--primary)}
-    .pixel-gallery{display:flex;flex-wrap:wrap;gap:1rem;justify-content:center;margin:2rem 0}
-    .pixel-item{background:var(--card-bg);border-radius:10px;padding:1rem;box-shadow:0 2px 10px rgba(0,0,0,.06);text-align:center;transition:all .3s ease}
-    .pixel-item:hover{transform:translateY(-5px);box-shadow:0 10px 25px rgba(0,0,0,.1)}
-    .pixel-item img{max-width:150px;max-height:100px;image-rendering:pixelated}
-    .pixel-item p{margin-top:.5rem;font-size:.85rem;color:var(--text-light)}
-    .tech-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem}
-    .tech-item{background:var(--card-bg);padding:1.2rem 1.5rem;border-radius:8px;display:flex;align-items:center;gap:1rem;box-shadow:0 2px 10px rgba(0,0,0,.05);transition:all .3s ease}
-    .tech-item:hover{transform:translateY(-3px);box-shadow:0 8px 20px rgba(0,0,0,.1)}
-    .tech-item .icon{font-size:1.5rem}
-    .tech-item .label{font-weight:600;color:var(--primary)}
-    .tech-item .desc{font-size:.85rem;color:var(--text-light)}
-    .stats-row{display:flex;justify-content:center;flex-wrap:wrap;gap:4rem;margin:3rem 0}
-    .stat{text-align:center}
-    .stat .number{font-size:3.5rem;font-weight:700;color:var(--primary);line-height:1}
-    .stat .label{color:var(--text-light);margin-top:.5rem}
-    .cluster-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.5rem}
-    .cluster-card{background:var(--card-bg);padding:1.5rem;border-radius:10px;box-shadow:0 2px 12px rgba(0,0,0,.05);border-top:3px solid var(--accent)}
-    .cluster-card h4{color:var(--primary);margin-bottom:.75rem;font-size:1.1rem}
-    .cluster-card p{color:var(--text-light);font-size:.9rem}
-    .analysis-table{background:var(--card-bg);border-radius:10px;overflow:hidden;box-shadow:0 2px 12px rgba(0,0,0,.06);margin-top:2rem}
-    .analysis-table table{width:100%;border-collapse:collapse}
-    .analysis-table th{background:var(--primary);color:white;padding:1rem;text-align:left;font-weight:500}
-    .analysis-table td{padding:1rem;border-bottom:1px solid #eee;font-size:.95rem}
-    .analysis-table tr:last-child td{border-bottom:none}
-    .analysis-table tr:hover{background:#f9f9f9}
-    .future-list{max-width:750px;margin:0 auto}
-    .future-item{display:flex;gap:1.5rem;margin-bottom:2rem;align-items:flex-start}
-    .future-icon{font-size:2.5rem;flex-shrink:0}
-    .future-item h4{color:var(--primary);margin-bottom:.3rem}
-    .future-item p{color:var(--text-light);font-size:.95rem}
-    .team-grid{display:flex;justify-content:center;flex-wrap:wrap;gap:3rem}
-    .team-member{text-align:center}
-    .team-avatar{width:90px;height:90px;border-radius:50%;background:linear-gradient(135deg,var(--primary),var(--primary-light));color:white;display:flex;align-items:center;justify-content:center;font-size:2rem;margin:0 auto .75rem;box-shadow:0 4px 15px rgba(45,90,61,.3)}
-    .team-member h4{font-weight:500}
-    .issues-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1rem}
-    .issue-item{background:var(--card-bg);padding:1.2rem;border-radius:8px;box-shadow:0 2px 10px rgba(0,0,0,.05);display:flex;gap:1rem;align-items:flex-start}
-    .issue-item .icon{font-size:1.5rem;flex-shrink:0}
-    .issue-item p{font-size:.9rem;color:var(--text-light)}
-    footer{background:var(--primary);color:white;text-align:center;padding:3rem 2rem}
-    footer .brand{font-size:1.5rem;margin-bottom:.5rem}
-    footer p{opacity:.7;font-size:.9rem}
-    footer .studio{margin-top:1rem;font-size:.85rem;opacity:.5}
-    .reveal{opacity:0;transform:translateY(30px);transition:all .6s ease}
-    .reveal.active{opacity:1;transform:translateY(0)}
-    @media(max-width:768px){.hero h1{font-size:2.2rem}.hero-logo{font-size:3.5rem}section{padding:3rem 1.5rem}.nav-links{display:none}.stats-row{gap:2rem}}
+    :root {
+      --primary: #5a4a3a;
+      --accent: #e8b84a;
+      --accent2: #7cb342;
+      --bg: #f4efe6;
+      --card: #fffef5;
+      --text: #3d3225;
+      --pixel: #2d2520;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Noto Sans SC', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.8;
+      overflow-x: hidden;
+    }
+
+    /* Pixel font for titles */
+    .pixel-title {
+      font-family: 'Press Start 2P', monospace;
+      letter-spacing: 0.05em;
+    }
+
+    /* Nav */
+    .nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+      padding: 1rem 2rem;
+      background: rgba(45,37,32,0.9);
+      backdrop-filter: none;
+      box-shadow: 0 4px 0 rgba(0,0,0,0.3);
+    }
+    .nav-inner { max-width: 1100px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
+    .nav-logo {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.7rem;
+      color: var(--accent);
+      text-decoration: none;
+      text-shadow: 2px 2px 0 var(--pixel);
+    }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a {
+      color: var(--card);
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--accent); }
+
+    /* Hero - Pixel Game Style */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      padding: 2rem;
+    }
+
+    .hero-bg {
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: url(images/hero-title.png) center/cover no-repeat;
+      filter: brightness(0.85) saturate(1.2);
+    }
+
+    .hero-overlay {
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: linear-gradient(
+        180deg,
+        rgba(45,37,32,0.6) 0%,
+        rgba(45,37,32,0.4) 40%,
+        rgba(45,37,32,0.7) 100%
+      );
+    }
+
+    .hero-pixel-border {
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      border: 8px solid transparent;
+      border-image: repeating-linear-gradient(
+        45deg,
+        var(--accent) 0px,
+        var(--accent) 10px,
+        var(--pixel) 10px,
+        var(--pixel) 20px
+      ) 8;
+      pointer-events: none;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+    }
+
+    .hero-logo {
+      font-size: 5rem;
+      margin-bottom: 1.5rem;
+      animation: float 2s ease-in-out infinite;
+      filter: drop-shadow(4px 4px 0 var(--pixel));
+    }
+    @keyframes float {
+      0%,100% { transform: translateY(0) rotate(-2deg); }
+      50% { transform: translateY(-12px) rotate(2deg); }
+    }
+
+    .hero h1 {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 2.2rem;
+      color: var(--accent);
+      text-shadow: 4px 4px 0 var(--pixel);
+      margin-bottom: 1rem;
+      line-height: 1.5;
+    }
+
+    .hero .subtitle {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.75rem;
+      color: var(--card);
+      opacity: 0.9;
+      margin-bottom: 1.5rem;
+      text-shadow: 2px 2px 0 var(--pixel);
+    }
+
+    .hero .tagline {
+      font-size: 1.1rem;
+      color: var(--card);
+      opacity: 0.85;
+      font-style: italic;
+      margin-bottom: 2rem;
+    }
+
+    .hero-badges {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-bottom: 2rem;
+    }
+
+    .badge {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.5rem;
+      background: var(--accent);
+      color: var(--pixel);
+      padding: 0.6rem 1rem;
+      border: 3px solid var(--pixel);
+      box-shadow: 4px 4px 0 var(--pixel);
+      transition: transform 0.1s, box-shadow 0.1s;
+    }
+    .badge:hover {
+      transform: translate(-2px, -2px);
+      box-shadow: 6px 6px 0 var(--pixel);
+    }
+
+    .hero-team {
+      font-size: 0.85rem;
+      color: var(--card);
+      opacity: 0.7;
+    }
+
+    .scroll-hint {
+      position: absolute;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      animation: bounce 1.5s infinite;
+      opacity: 0.7;
+    }
+    .scroll-hint span { font-family: 'Press Start 2P', monospace; font-size: 1.5rem; color: var(--accent); }
+    @keyframes bounce {
+      0%,100% { transform: translateX(-50%) translateY(0); }
+      50% { transform: translateX(-50%) translateY(10px); }
+    }
+
+    /* Sections */
+    section { padding: 5rem 2rem; max-width: 1100px; margin: 0 auto; }
+
+    .section-title { text-align: center; margin-bottom: 3rem; }
+    .section-title h2 {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 1rem;
+      color: var(--pixel);
+      margin-bottom: 0.5rem;
+      text-shadow: 2px 2px 0 var(--accent);
+    }
+    .section-title p { color: var(--text); opacity: 0.7; }
+
+    /* Pixel Card */
+    .pixel-card {
+      background: var(--card);
+      border: 4px solid var(--pixel);
+      box-shadow: 6px 6px 0 var(--pixel);
+      padding: 1.8rem;
+      transition: transform 0.15s, box-shadow 0.15s;
+      position: relative;
+    }
+    .pixel-card:hover {
+      transform: translate(-3px, -3px);
+      box-shadow: 9px 9px 0 var(--pixel);
+    }
+    .pixel-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%;
+      height: 4px;
+      background: repeating-linear-gradient(90deg, var(--accent), var(--accent) 20px, var(--pixel) 20px, var(--pixel) 22px);
+    }
+
+    /* Cards Grid */
+    .cards-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; }
+    .pixel-card .card-icon { font-size: 2.5rem; margin-bottom: 0.75rem; }
+    .pixel-card h3 { color: var(--pixel); margin-bottom: 0.75rem; font-size: 1rem; font-weight: 700; }
+    .pixel-card p { color: var(--text); opacity: 0.8; font-size: 0.95rem; }
+
+    /* Quote */
+    .pixel-quote {
+      background: var(--card);
+      border: 4px solid var(--accent);
+      box-shadow: 6px 6px 0 var(--pixel);
+      padding: 1.5rem 2rem;
+      margin: 2rem auto;
+      max-width: 700px;
+      text-align: center;
+      position: relative;
+    }
+    .pixel-quote::before {
+      content: '"';
+      position: absolute;
+      top: -20px; left: 20px;
+      font-family: 'Press Start 2P', monospace;
+      font-size: 4rem;
+      color: var(--accent);
+      opacity: 0.5;
+    }
+    .pixel-quote p { font-style: italic; font-size: 1.1rem; color: var(--text); }
+
+    /* Pixel Gallery */
+    .pixel-gallery { display: flex; flex-wrap: wrap; gap: 1.5rem; justify-content: center; margin: 2rem 0; }
+    .pixel-art-frame {
+      background: var(--card);
+      border: 4px solid var(--pixel);
+      box-shadow: 6px 6px 0 var(--pixel);
+      padding: 1rem;
+      text-align: center;
+      transition: transform 0.15s;
+    }
+    .pixel-art-frame:hover { transform: translate(-3px, -3px); }
+    .pixel-art-frame img {
+      max-width: 180px;
+      max-height: 120px;
+      image-rendering: pixelated;
+      border: 2px solid var(--pixel);
+    }
+    .pixel-art-frame p {
+      margin-top: 0.5rem;
+      font-size: 0.8rem;
+      color: var(--text);
+      font-weight: 500;
+    }
+
+    /* Tech Grid */
+    .tech-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; }
+    .tech-chip {
+      background: var(--pixel);
+      color: var(--card);
+      border: 3px solid var(--accent);
+      padding: 1rem 1.2rem;
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: background 0.2s;
+    }
+    .tech-chip:hover { background: var(--accent); color: var(--pixel); }
+    .tech-chip .icon { font-size: 1.3rem; }
+
+    /* Stats */
+    .stats-row { display: flex; justify-content: center; flex-wrap: wrap; gap: 3rem; margin: 2rem 0; }
+    .pixel-stat {
+      text-align: center;
+      background: var(--card);
+      border: 4px solid var(--pixel);
+      box-shadow: 6px 6px 0 var(--pixel);
+      padding: 1.5rem 2.5rem;
+    }
+    .pixel-stat .number {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 2rem;
+      color: var(--accent);
+      text-shadow: 2px 2px 0 var(--pixel);
+      line-height: 1;
+    }
+    .pixel-stat .label { color: var(--text); font-size: 0.85rem; margin-top: 0.5rem; }
+
+    /* Cluster Cards */
+    .cluster-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.5rem; }
+    .cluster-card {
+      background: var(--card);
+      border: 4px solid var(--pixel);
+      box-shadow: 6px 6px 0 var(--pixel);
+      padding: 1.5rem;
+      border-top: 6px solid var(--accent2);
+    }
+    .cluster-card h4 { color: var(--pixel); margin-bottom: 0.5rem; font-size: 0.95rem; }
+    .cluster-card p { color: var(--text); opacity: 0.75; font-size: 0.9rem; }
+
+    /* Future Items */
+    .future-list { max-width: 700px; margin: 0 auto; }
+    .future-item { display: flex; gap: 1.5rem; margin-bottom: 1.5rem; align-items: flex-start; }
+    .future-icon { font-size: 2.5rem; flex-shrink: 0; }
+    .future-item h4 { color: var(--pixel); margin-bottom: 0.25rem; font-size: 1rem; }
+    .future-item p { color: var(--text); opacity: 0.75; font-size: 0.9rem; }
+
+    /* Team */
+    .team-grid { display: flex; justify-content: center; flex-wrap: wrap; gap: 2.5rem; }
+    .team-member { text-align: center; }
+    .team-avatar {
+      width: 80px; height: 80px;
+      border: 4px solid var(--pixel);
+      box-shadow: 4px 4px 0 var(--pixel);
+      background: var(--accent2);
+      color: var(--pixel);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 2rem;
+      margin: 0 auto 0.5rem;
+    }
+    .team-member h4 { font-weight: 500; font-size: 0.9rem; }
+
+    /* Footer */
+    footer {
+      background: var(--pixel);
+      color: var(--card);
+      text-align: center;
+      padding: 3rem 2rem;
+      border-top: 6px solid var(--accent);
+    }
+    footer .brand {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.8rem;
+      color: var(--accent);
+      margin-bottom: 0.5rem;
+      text-shadow: 2px 2px 0 rgba(0,0,0,0.5);
+    }
+    footer p { opacity: 0.6; font-size: 0.85rem; }
+    footer .studio { margin-top: 0.5rem; font-size: 0.75rem; opacity: 0.4; }
+
+    /* Reveal */
+    .reveal { opacity: 0; transform: translateY(25px); transition: all 0.5s ease; }
+    .reveal.active { opacity: 1; transform: translateY(0); }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .hero h1 { font-size: 1.2rem; }
+      .hero-logo { font-size: 3.5rem; }
+      section { padding: 3rem 1.5rem; }
+      .nav-links { display: none; }
+    }
   </style>
 </head>
 <body>
-<nav class="nav" id="nav"><div class="nav-inner"><a href="#" class="nav-logo">🏛️ 燕园主理人</a><ul class="nav-links"><li><a href="#about">关于</a></li><li><a href="#game">游戏</a></li><li><a href="#analysis">竞品</a></li><li><a href="#tech">技术</a></li><li><a href="#data">数据</a></li><li><a href="#future">愿景</a></li></ul></div></nav>
-<section class="hero"><div class="hero-content"><div class="hero-logo">🏛️</div><h1>燕园主理人</h1><p class="subtitle">Yanyuan Manager</p><p class="tagline">"玩"成每个人的公共空间创意</p><div class="hero-badges"><span class="badge">🎮 经营类放置游戏</span><span class="badge">🗺️ 校园空间共创</span><span class="badge">🤝 公众参与治理</span></div><p class="hero-team">团队：李明选 · 余修宽 · 杨文静 · 杨希澜</p></div><div class="scroll-hint"><span>↓</span></div></section>
-<section id="about"><div class="section-title"><p class="en">Project Background</p><h2>01 项目背景</h2></div><p style="text-align:center;max-width:750px;margin:0 auto 2rem;font-size:1.1rem;color:var(--text-light)">城市化进程过快，规划决策与实际需求脱节，存量公共空间存在诸多问题。城市规划复杂且门槛高，公众参与深度不足。</p><div class="quote-box"><p>"规划不是自上而下的蓝图，而是自下而上的对话。"</p></div><div class="cards-grid" style="margin-top:2rem"><div class="card reveal"><div class="card-icon">🎯</div><h3>打破空间壁垒</h3><p>虚拟城市空间已成为现实空间的镜像与延伸，两者通过"感知、再组织、再认识、反馈"的环状路径产生深度互动。</p></div><div class="card reveal"><div class="card-icon">🚪</div><h3>降低参与门槛</h3><p>严肃游戏融合互动机制与情境模拟，采用交互叙事方法，让全年龄段都能参与复杂规划，实现城市治理权利的下放。</p></div><div class="card reveal"><div class="card-icon">⚡</div><h3>提升参与效率</h3><p>游戏化体验增强归属感与认同感，虚拟界面让居民直接进行空间布局，数据收集效率远高于传统调研。</p></div></div></section>
-<section id="game"><div class="section-title"><p class="en">Game Design</p><h2>02 游戏设计</h2></div><div class="game-intro reveal"><h3>🎮 《燕园主理人》— 经营类放置装修游戏</h3><div class="core-play">玩家以北大学生的身份，在校园中探索、发现各类空间问题，通过资源管理和创意设计，亲手改造并激活校园空间，提升师生满意度和校园活力。</div><div class="game-meta"><div class="meta-item"><span>🗺️</span><span>北京大学景观学院与城环学院园区</span></div><div class="meta-item"><span>⏱️</span><span>15-30分钟完成"发现-改造-效益"循环</span></div><div class="meta-item"><span>📱</span><span>安卓端 + Windows 端</span></div></div></div><div class="cards-grid" style="margin-top:2rem"><div class="card reveal"><div class="card-icon">📍</div><h3>物理空间定位与诊断</h3><p>采用地理围栏算法构建经纬度矩形包围盒，设置0.0002°容差范围过滤GPS漂移。"你画我猜"式交互验证机制，激励玩家仔细观察场地细节。</p></div><div class="card reveal"><div class="card-icon">🏗️</div><h3>网格建造系统</h3><p>130+物品库，4大类（公共设施/装饰艺术/景观植被/道路铺装），支持放置、旋转、删除、叠加操作。智能管理模块实时计算物品在网格上的精确坐标。</p></div><div class="card reveal"><div class="card-icon">🤖</div><h3>AI NPC 智能对话</h3><p>DeepSeek API 驱动的智能体对话 NPC，角色Raby活泼可爱。Temperature采样控制输出随机性，多轮对话支持，任务限定装扮系统。</p></div><div class="card reveal"><div class="card-icon">☁️</div><h3>云端数据存储</h3><p>LeanCloud BaaS 支持，建造数据云端同步，好友校园互联互通，本地数据持久化存档机制。</p></div></div><h3 style="text-align:center;margin-top:3rem;color:var(--primary)">🎨 像素美术素材</h3><div class="pixel-gallery"><div class="pixel-item"><img src="images/像素风小岛.png" alt="像素风小岛"><p>像素风小岛</p></div><div class="pixel-item"><img src="images/兔子.png" alt="兔子NPC"><p>Raby 兔子</p></div><div class="pixel-item"><img src="images/呆呆鸟.png" alt="呆呆鸟"><p>呆呆鸟 NPC</p></div><div class="pixel-item"><img src="images/余修宽踢杨锡兰 像素风.png" alt="像素风角色"><p>角色像素风</p></div><div class="pixel-item"><img src="images/李明选 杨文静像素风奔跑.png" alt="奔跑动画"><p>奔跑动画</p></div></div></section>
-<section id="analysis"><div class="section-title"><p class="en">Competitive Analysis</p><h2>03 竞品分析</h2></div><div class="cards-grid"><div class="card reveal"><div class="card-icon">🗺️</div><h3>探索导引类</h3><p>以 LBS 地理位置服务为核心，通过 GPS 寻找虚拟/实体宝藏。</p><p><strong>代表：</strong>Pokemon GO、Geocaching</p><p><strong>优点：</strong>提升空间"到访率"与"在场性"</p><p><strong>缺点：</strong>缺乏对空间实体评价，难建立场地认同</p><span class="tag">LBS + GPS</span></div><div class="card reveal"><div class="card-icon">🏗️</div><h3>模拟建造类</h3><p>提供上帝视角与高度自由的编辑工具，在虚拟世界建设城市。</p><p><strong>代表：</strong>我的世界、模拟城市</p><p><strong>优点：</strong>赋予玩家极高的设计权与创造空间</p><p><strong>缺点：</strong>难以直接转化为现实</p><span class="tag">沙盒建造</span></div><div class="card reveal"><div class="card-icon">🎭</div><h3>叙事体验类</h3><p>结合实物解谜与实地线索，将空间转化为文化剧场。</p><p><strong>代表：</strong>各类剧本杀</p><p><strong>优点：</strong>推动文化传播，增强玩家情感连接</p><p><strong>缺点：</strong>互动往往是线性的、一次性的打卡</p><span class="tag">沉浸式叙事</span></div><div class="card reveal"><div class="card-icon">🌱</div><h3>行为回馈类</h3><p>"行为积累→数值转化→实体回馈"逻辑，激励持续参与。</p><p><strong>代表：</strong>TrainPal Trees、蚂蚁森林</p><p><strong>优点：</strong>有效解决公众参与动机不足问题</p><p><strong>缺点：</strong>界面扁平化，缺乏对物理空间三维感知</p><span class="tag">激励机制</span></div></div><div class="quote-box" style="margin-top:2rem"><p>现有城市模拟经营类游戏，与公众参与存在路径壁垒，多限于虚拟，缺少现实价值。<br><strong>能否开发一款游戏，作为公众参与社区治理的新媒介？<br>"体验化、游戏化、低门槛、高互动"</strong></p></div></section>
-<section id="tech"><div class="section-title"><p class="en">Tech Stack</p><h2>04 技术架构</h2></div><div class="tech-grid"><div class="tech-item reveal"><span class="icon">🎮</span><div><div class="label">Unity</div><div class="desc">游戏引擎 / 跨平台构建</div></div></div><div class="tech-item reveal"><span class="icon">🗄️</span><div><div class="label">LeanCloud</div><div class="desc">BaaS 云端数据中心</div></div></div><div class="tech-item reveal"><span class="icon">🤖</span><div><div class="label">DeepSeek API</div><div class="desc">AI NPC 智能对话</div></div></div><div class="tech-item reveal"><span class="icon">📍</span><div><div class="label">地理围栏</div><div class="desc">LBS 位置服务与 GPS</div></div></div><div class="tech-item reveal"><span class="icon">📊</span><div><div class="label">K-means</div><div class="desc">空间特征聚类分析</div></div></div><div class="tech-item reveal"><span class="icon">🖼️</span><div><div class="label">图像处理</div><div class="desc">RGB→HSV 空间量化</div></div></div><div class="tech-item reveal"><span class="icon">🎨</span><div><div class="label">像素美术</div><div class="desc">地图风格化与场景建模</div></div></div><div class="tech-item reveal"><span class="icon">📱</span><div><div class="label">跨平台</div><div class="desc">安卓 + Windows</div></div></div></div><h3 style="text-align:center;margin-top:3rem;color:var(--primary)">🔧 系统架构</h3><div class="cards-grid" style="margin-top:1.5rem"><div class="card reveal"><h3>物理空间层</h3><p>物理空间定位与诊断，地理围栏算法构建经纬度矩形包围盒，设置0.0002°容差范围过滤GPS漂移。</p></div><div class="card reveal"><h3>云端数据层</h3><p>LeanCloud BaaS 轻量化数据中心，收集建造物种类位置频次统计，净屏快照与作品截图。</p></div><div class="card reveal"><h3>视觉交互层</h3><p>Unity Canvas + Button + Image，UI交互支撑，预览/取消预览/保存/上传多功能切换。</p></div><div class="card reveal"><h3>现实营建层</h3><p>将热门提案反馈给校园营建社，推动游戏方案落地为现实设施。</p></div></div></section>
-<section id="data"><div class="section-title"><p class="en">Data Analysis</p><h2>05 数据分析</h2></div><div class="stats-row"><div class="stat reveal"><div class="number" data-target="18">0</div><div class="label">内测玩家</div></div><div class="stat reveal"><div class="number" data-target="130">0</div><div class="label">建造物品</div></div><div class="stat reveal"><div class="number" data-target="3">0</div><div class="label">空间聚类类型</div></div></div><h3 style="color:var(--primary);margin-bottom:1.5rem">📈 建造数据分析</h3><div class="analysis-table reveal"><table><thead><tr><th>物品类别</th><th>高频物品</th><th>使用特点</th></tr></thead><tbody><tr><td>景观植被</td><td>树木、草坪、花卉</td><td>使用频率最高</td></tr><tr><td>公共设施</td><td>座椅、路灯、垃圾桶</td><td>使用频率中等</td></tr><tr><td>装饰艺术</td><td>雕塑、壁画、喷泉</td><td>使用频率中等</td></tr><tr><td>道路铺装</td><td>石板路、碎石路</td><td>使用频率较低</td></tr></tbody></table></div><h3 style="color:var(--primary);margin:2rem 0 1.5rem">🧠 空间聚类结果</h3><div class="cluster-grid"><div class="cluster-card reveal"><h4>🌿 Cluster 0：景观导向型</h4><p>以绿色植被为主导，景观丰富的空间类型，绿地占比例高。</p></div><div class="cluster-card reveal"><h4>🏢 Cluster 1：集中核心型</h4><p>建筑密度较高、结构相对集中的空间布局，建筑比例占优。</p></div><div class="cluster-card reveal"><h4>🛤️ Cluster 2：交通导向型</h4><p>道路结构复杂、空间较为碎片化的区域，道路边缘复杂度高。</p></div></div><h3 style="color:var(--primary);margin:2rem 0 1.5rem">🔬 研究方法</h3><div class="cards-grid"><div class="card reveal"><h3>图像预处理</h3><p>统一尺寸保留核心画面，RGB→HSV颜色空间转换，阈值分割提取绿地/道路/建筑。</p></div><div class="card reveal"><h3>特征量化</h3><p>绿地占比、道路占比、建筑占比，道路边缘复杂度等空间特征指标构建。</p></div><div class="card reveal"><h3>K-means 聚类</h3><p>特征标准化后无监督聚类，将校园空间分为三种主要类型进行分析。</p></div></div></section>
-<section id="future"><div class="section-title"><p class="en">Future Vision</p><h2>06 未来愿景</h2></div><div class="future-list"><div class="future-item reveal"><div class="future-icon">🏫</div><div><h4>落地校园</h4><p>与学校保卫处、房管部联系沟通，与校园营建社合作，让游戏中的热门提案真正落地为现实设施，实现公众参与闭环。</p></div></div><div class="future-item reveal"><div class="future-icon">🌉</div><div><h4>连接现实</h4><p>以游戏为桥，让"空间共创"连接更真实、走进更多场景。</p></div></div><div class="future-item reveal"><div class="future-icon">🏘️</div><div><h4>拓展边界</h4><p>从校园建设推广至老旧小区改造等更广泛的城市微更新领域。</p></div></div><div class="future-item reveal"><div class="future-icon">💡</div><div><h4>输出方案</h4><p>提供一套低门槛、激发创意的"公众参与"设计解决方案。</p></div></div></div><h3 style="color:var(--primary);margin-top:3rem;margin-bottom:1.5rem">⚠️ 当前不足</h3><div class="issues-grid"><div class="issue-item reveal"><span class="icon">🔧</span><p>建造体验优化：当前建造操作逻辑仍需进一步优化，让建造体验更加流畅、快捷。</p></div><div class="issue-item reveal"><span class="icon">📦</span><p>建造自由度：强网格约束限制了物品的堆叠与任意角度旋转、微调等功能。</p></div><div class="issue-item reveal"><span class="icon">👥</span><p>好友系统：云端与本地数据同步存在冲突，好友校园无法正常加载。</p></div><div class="issue-item reveal"><span class="icon">💰</span><p>任务与货币：当前任务系统不成熟，货币数值仅为UI展示，尚未实装扣费与获取逻辑。</p></div><div class="issue-item reveal"><span class="icon">🐛</span><p>稳定性迭代：系统中仍存在一些bug，正在持续修复中。</p></div><div class="issue-item reveal"><span class="icon">📲</span><p>iOS 端：由于开发者证书签名与打包流水线的复杂性，目前尚未成功生成测试包。</p></div></div></section>
-<section id="team"><div class="section-title"><p class="en">Project Team</p><h2>团队成员</h2></div><div class="team-grid"><div class="team-member reveal"><div class="team-avatar">👤</div><h4>李明选</h4></div><div class="team-member reveal"><div class="team-avatar">👤</div><h4>余修宽</h4></div><div class="team-member reveal"><div class="team-avatar">👤</div><h4>杨文静</h4></div><div class="team-member reveal"><div class="team-avatar">👤</div><h4>杨希澜</h4></div></div></section>
-<footer><div class="brand">🏛️ 燕园主理人</div><p>"玩"成每个人的公共空间创意</p><p class="studio">Y³ & L¹ Studio</p></footer>
-<script>const nav=document.getElementById('nav');window.addEventListener('scroll',()=>{nav.classList.toggle('scrolled',window.scrollY>50)});const revealElements=document.querySelectorAll('.reveal');const revealObserver=new IntersectionObserver((entries)=>{entries.forEach(entry=>{if(entry.isIntersecting)entry.target.classList.add('active')})},{threshold:0.1,rootMargin:'0px 0px -50px 0px'});revealElements.forEach(el=>revealObserver.observe(el));const counters=document.querySelectorAll('.number[data-target]');let countersStarted=false;function startCounters(){counters.forEach(counter=>{const target=parseInt(counter.getAttribute('data-target'));const duration=2000;const start=performance.now();function update(currentTime){const elapsed=currentTime-start;const progress=Math.min(elapsed/duration,1);const easeOut=1-Math.pow(1-progress,3);const current=Math.floor(target*easeOut);counter.textContent=target>100?current+'+':current;if(progress<1)requestAnimationFrame(update)}});requestAnimationFrame(update)}const counterObserver=new IntersectionObserver((entries)=>{entries.forEach(entry=>{if(entry.isIntersecting&&!countersStarted){countersStarted=true;startCounters()}})},{threshold:0.5});counters.forEach(counter=>counterObserver.observe(counter))</script>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="#" class="nav-logo">🏛️ 燕园主理人</a>
+    <ul class="nav-links">
+      <li><a href="#about">关于</a></li>
+      <li><a href="#game">游戏</a></li>
+      <li><a href="#tech">技术</a></li>
+      <li><a href="#data">数据</a></li>
+      <li><a href="#future">愿景</a></li>
+    </ul>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-overlay"></div>
+  <div class="hero-pixel-border"></div>
+  <div class="hero-content">
+    <div class="hero-logo">🏛️</div>
+    <h1>燕园主理人</h1>
+    <p class="subtitle">YANYUAN MANAGER</p>
+    <p class="tagline">"玩"成每个人的公共空间创意</p>
+    <div class="hero-badges">
+      <span class="badge">🎮 经营放置</span>
+      <span class="badge">🗺️ 空间共创</span>
+      <span class="badge">🤝 公众参与</span>
+    </div>
+    <p class="hero-team">李明选 · 余修宽 · 杨文静 · 杨希澜</p>
+  </div>
+  <div class="scroll-hint"><span>▼</span></div>
+</section>
+
+<section id="about">
+  <div class="section-title">
+    <h2>关于项目</h2>
+    <p>规划不是自上而下的蓝图，而是自下而上的对话</p>
+  </div>
+  <div class="pixel-quote">
+    <p>城市化进程过快，规划决策与实际需求脱节。我们相信：游戏化可以成为公众参与城市治理的新媒介。</p>
+  </div>
+  <div class="cards-grid">
+    <div class="pixel-card reveal">
+      <div class="card-icon">🎯</div>
+      <h3>打破空间壁垒</h3>
+      <p>虚拟城市空间与现实空间深度互动，游戏化媒介成为公众参与规划的有效路径。</p>
+    </div>
+    <div class="pixel-card reveal">
+      <div class="card-icon">🚪</div>
+      <h3>降低参与门槛</h3>
+      <p>严肃游戏融合互动机制与情境模拟，让全年龄段都能参与复杂规划。</p>
+    </div>
+    <div class="pixel-card reveal">
+      <div class="card-icon">⚡</div>
+      <h3>提升参与效率</h3>
+      <p>虚拟界面让居民直接进行空间布局，数据收集效率远高于传统调研。</p>
+    </div>
+  </div>
+</section>
+
+<section id="game">
+  <div class="section-title">
+    <h2>游戏设计</h2>
+    <p>15-30分钟完成"发现-改造-效益"循环</p>
+  </div>
+  <div class="cards-grid">
+    <div class="pixel-card reveal">
+      <div class="card-icon">📍</div>
+      <h3>定位发现</h3>
+      <p>地理围栏 + GPS，现实中发现地块、"你画我猜"式验证解锁空间。</p>
+    </div>
+    <div class="pixel-card reveal">
+      <div class="card-icon">🏗️</div>
+      <h3>网格建造</h3>
+      <p>130+物品，4大类（设施/装饰/植被/铺装），放置·旋转·删除·叠加。</p>
+    </div>
+    <div class="pixel-card reveal">
+      <div class="card-icon">🤖</div>
+      <h3>AI NPC</h3>
+      <p>DeepSeek API 驱动，Raby 兔子陪你对话，解锁任务限定装扮。</p>
+    </div>
+    <div class="pixel-card reveal">
+      <div class="card-icon">☁️</div>
+      <h3>云端存档</h3>
+      <p>LeanCloud 支持数据云同步，好友校园互联互通。</p>
+    </div>
+  </div>
+
+  <h3 style="text-align:center; margin-top:3rem; font-family:'Press Start 2P',monospace; font-size:0.7rem; color:var(--pixel); text-shadow:2px 2px 0 var(--accent);">🎨 像素美术</h3>
+  <div class="pixel-gallery">
+    <div class="pixel-art-frame"><img src="images/像素风小岛.png" alt=""><p>像素风小岛</p></div>
+    <div class="pixel-art-frame"><img src="images/兔子.png" alt=""><p>Raby 兔子</p></div>
+    <div class="pixel-art-frame"><img src="images/呆呆鸟.png" alt=""><p>呆呆鸟 NPC</p></div>
+    <div class="pixel-art-frame"><img src="images/余修宽踢杨锡兰 像素风.png" alt=""><p>角色像素</p></div>
+    <div class="pixel-art-frame"><img src="images/李明选 杨文静像素风奔跑.png" alt=""><p>奔跑动画</p></div>
+  </div>
+</section>
+
+<section id="tech">
+  <div class="section-title">
+    <h2>技术架构</h2>
+    <p>Unity · LeanCloud · DeepSeek · K-means</p>
+  </div>
+  <div class="tech-grid">
+    <div class="tech-chip reveal"><span class="icon">🎮</span>Unity 引擎</div>
+    <div class="tech-chip reveal"><span class="icon">🗄️</span>LeanCloud</div>
+    <div class="tech-chip reveal"><span class="icon">🤖</span>DeepSeek API</div>
+    <div class="tech-chip reveal"><span class="icon">📍</span>地理围栏 GPS</div>
+    <div class="tech-chip reveal"><span class="icon">📊</span>K-means 聚类</div>
+    <div class="tech-chip reveal"><span class="icon">🖼️</span>图像处理</div>
+    <div class="tech-chip reveal"><span class="icon">🎨</span>像素美术</div>
+    <div class="tech-chip reveal"><span class="icon">📱</span>安卓 + Windows</div>
+  </div>
+</section>
+
+<section id="data">
+  <div class="section-title">
+    <h2>数据分析</h2>
+    <p>18名玩家 · 130+物品 · 3种空间类型</p>
+  </div>
+  <div class="stats-row">
+    <div class="pixel-stat reveal"><div class="number" data-target="18">0</div><div class="label">内测玩家</div></div>
+    <div class="pixel-stat reveal"><div class="number" data-target="130">0</div><div class="label">建造物品</div></div>
+    <div class="pixel-stat reveal"><div class="number" data-target="3">0</div><div class="label">空间类型</div></div>
+  </div>
+  <div class="cluster-grid">
+    <div class="cluster-card reveal"><h4>🌿 景观导向型</h4><p>绿地占主导，景观丰富的空间类型。</p></div>
+    <div class="cluster-card reveal"><h4>🏢 集中核心型</h4><p>建筑密度较高、结构集中的布局。</p></div>
+    <div class="cluster-card reveal"><h4>🛤️ 交通导向型</h4><p>道路结构复杂、空间碎片化的区域。</p></div>
+  </div>
+</section>
+
+<section id="future">
+  <div class="section-title">
+    <h2>未来愿景</h2>
+    <p>让"空间共创"连接更真实</p>
+  </div>
+  <div class="future-list">
+    <div class="future-item reveal"><div class="future-icon">🏫</div><div><h4>落地校园</h4><p>与校园营建社合作，让热门提案落地为现实设施。</p></div></div>
+    <div class="future-item reveal"><div class="future-icon">🌉</div><div><h4>连接现实</h4><p>以游戏为桥，走进更多城市微更新场景。</p></div></div>
+    <div class="future-item reveal"><div class="future-icon">💡</div><div><h4>输出方案</h4><p>提供"公众参与"设计的低门槛解决方案。</p></div></div>
+  </div>
+</section>
+
+<section id="team">
+  <div class="section-title">
+    <h2>团队成员</h2>
+  </div>
+  <div class="team-grid">
+    <div class="team-member reveal"><div class="team-avatar">👤</div><h4>李明选</h4></div>
+    <div class="team-member reveal"><div class="team-avatar">👤</div><h4>余修宽</h4></div>
+    <div class="team-member reveal"><div class="team-avatar">👤</div><h4>杨文静</h4></div>
+    <div class="team-member reveal"><div class="team-avatar">👤</div><h4>杨希澜</h4></div>
+  </div>
+</section>
+
+<footer>
+  <div class="brand">🏛️ 燕园主理人</div>
+  <p>"玩"成每个人的公共空间创意</p>
+  <p class="studio">Y³ & L¹ Studio</p>
+</footer>
+
+<script>
+  const nav = document.querySelector('.nav');
+  window.addEventListener('scroll', () => {
+    nav.style.background = window.scrollY > 50 ? 'rgba(45,37,32,0.98)' : 'rgba(45,37,32,0.9)';
+  });
+
+  const reveals = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('active'); });
+  }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+  reveals.forEach(el => io.observe(el));
+
+  const counters = document.querySelectorAll('.number[data-target]');
+  let started = false;
+  function startCounters() {
+    counters.forEach(c => {
+      const target = parseInt(c.dataset.target);
+      const dur = 1800;
+      const st = performance.now();
+      function up(t) {
+        const p = Math.min((t - st) / dur, 1);
+        const e = 1 - Math.pow(1 - p, 3);
+        c.textContent = target > 100 ? Math.floor(target * e) + '+' : Math.floor(target * e);
+        if (p < 1) requestAnimationFrame(up);
+      }
+      requestAnimationFrame(up);
+    });
+  }
+  const co = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting && !started) { started = true; startCounters(); }});
+  }, { threshold: 0.5 });
+  counters.forEach(c => co.observe(c));
+</script>
 </body>
 </html>
