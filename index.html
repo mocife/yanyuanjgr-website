@@ -5,19 +5,22 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>燕园主理人 — 玩成每个人的公共空间创意</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
   <style>
     :root {
-      --primary: #5a4a3a;
-      --accent: #e8b84a;
-      --accent2: #7cb342;
-      --bg: #f4efe6;
-      --card: #fffef5;
-      --text: #3d3225;
-      --pixel: #2d2520;
+      --primary: #3d6b4a;
+      --primary-dark: #2a4f34;
+      --accent: #e8c547;
+      --accent-light: #f5d97a;
+      --bg: #f7f4ef;
+      --card: #ffffff;
+      --text: #2c2c2c;
+      --text-light: #666;
+      --pixel: #1a1a1a;
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
 
     body {
       font-family: 'Noto Sans SC', sans-serif;
@@ -27,39 +30,21 @@
       overflow-x: hidden;
     }
 
-    /* Pixel font for titles */
-    .pixel-title {
-      font-family: 'Press Start 2P', monospace;
-      letter-spacing: 0.05em;
-    }
-
     /* Nav */
     .nav {
       position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
       padding: 1rem 2rem;
-      background: rgba(45,37,32,0.9);
-      backdrop-filter: none;
-      box-shadow: 0 4px 0 rgba(0,0,0,0.3);
+      background: rgba(26,26,26,0.92);
+      backdrop-filter: blur(8px);
+      transition: background 0.3s;
     }
     .nav-inner { max-width: 1100px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
-    .nav-logo {
-      font-family: 'Press Start 2P', monospace;
-      font-size: 0.7rem;
-      color: var(--accent);
-      text-decoration: none;
-      text-shadow: 2px 2px 0 var(--pixel);
-    }
+    .nav-logo { font-size: 1.2rem; font-weight: 700; color: var(--accent); text-decoration: none; }
     .nav-links { display: flex; gap: 2rem; list-style: none; }
-    .nav-links a {
-      color: var(--card);
-      text-decoration: none;
-      font-size: 0.9rem;
-      font-weight: 500;
-      transition: color 0.2s;
-    }
+    .nav-links a { color: #ddd; text-decoration: none; font-size: 0.9rem; font-weight: 500; transition: color 0.2s; }
     .nav-links a:hover { color: var(--accent); }
 
-    /* Hero - Pixel Game Style */
+    /* Hero */
     .hero {
       min-height: 100vh;
       display: flex;
@@ -67,303 +52,143 @@
       justify-content: center;
       align-items: center;
       text-align: center;
+      background: linear-gradient(170deg, #1a1a1a 0%, #2a4f34 60%, #1a1a1a 100%);
+      color: white;
+      padding: 6rem 2rem 4rem;
       position: relative;
       overflow: hidden;
-      padding: 2rem;
     }
 
-    .hero-bg {
+    .hero::before {
+      content: '';
       position: absolute;
       top: 0; left: 0; right: 0; bottom: 0;
-      background: url(images/hero-title.png) center/cover no-repeat;
-      filter: brightness(0.85) saturate(1.2);
-    }
-
-    .hero-overlay {
-      position: absolute;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background: linear-gradient(
-        180deg,
-        rgba(45,37,32,0.6) 0%,
-        rgba(45,37,32,0.4) 40%,
-        rgba(45,37,32,0.7) 100%
-      );
-    }
-
-    .hero-pixel-border {
-      position: absolute;
-      top: 0; left: 0; right: 0; bottom: 0;
-      border: 8px solid transparent;
-      border-image: repeating-linear-gradient(
-        45deg,
-        var(--accent) 0px,
-        var(--accent) 10px,
-        var(--pixel) 10px,
-        var(--pixel) 20px
-      ) 8;
+      background: radial-gradient(ellipse at 30% 40%, rgba(232,197,71,0.12) 0%, transparent 50%),
+                  radial-gradient(ellipse at 70% 60%, rgba(61,107,74,0.2) 0%, transparent 50%);
       pointer-events: none;
     }
 
-    .hero-content {
+    .hero-poster {
       position: relative;
       z-index: 2;
+      max-width: 900px;
+      width: 100%;
+      margin-bottom: 2rem;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+      border: 3px solid rgba(255,255,255,0.1);
     }
 
-    .hero-logo {
-      font-size: 5rem;
-      margin-bottom: 1.5rem;
-      animation: float 2s ease-in-out infinite;
-      filter: drop-shadow(4px 4px 0 var(--pixel));
-    }
-    @keyframes float {
-      0%,100% { transform: translateY(0) rotate(-2deg); }
-      50% { transform: translateY(-12px) rotate(2deg); }
+    .hero-poster img {
+      width: 100%;
+      height: auto;
+      display: block;
+      object-fit: contain;
     }
 
+    .hero-content { position: relative; z-index: 2; }
     .hero h1 {
-      font-family: 'Press Start 2P', monospace;
-      font-size: 2.2rem;
-      color: var(--accent);
-      text-shadow: 4px 4px 0 var(--pixel);
-      margin-bottom: 1rem;
-      line-height: 1.5;
+      font-size: 2.8rem;
+      font-weight: 700;
+      color: white;
+      margin-bottom: 0.5rem;
+      text-shadow: 0 2px 20px rgba(0,0,0,0.5);
     }
-
     .hero .subtitle {
-      font-family: 'Press Start 2P', monospace;
-      font-size: 0.75rem;
-      color: var(--card);
-      opacity: 0.9;
-      margin-bottom: 1.5rem;
-      text-shadow: 2px 2px 0 var(--pixel);
+      font-size: 1.2rem;
+      color: var(--accent);
+      font-weight: 500;
+      margin-bottom: 1rem;
     }
-
     .hero .tagline {
-      font-size: 1.1rem;
-      color: var(--card);
-      opacity: 0.85;
+      font-size: 1rem;
+      color: rgba(255,255,255,0.75);
       font-style: italic;
-      margin-bottom: 2rem;
+      margin-bottom: 1.5rem;
     }
-
-    .hero-badges {
-      display: flex;
-      gap: 1rem;
-      flex-wrap: wrap;
-      justify-content: center;
-      margin-bottom: 2rem;
-    }
-
+    .hero-badges { display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center; margin-bottom: 1.5rem; }
     .badge {
-      font-family: 'Press Start 2P', monospace;
-      font-size: 0.5rem;
-      background: var(--accent);
-      color: var(--pixel);
-      padding: 0.6rem 1rem;
-      border: 3px solid var(--pixel);
-      box-shadow: 4px 4px 0 var(--pixel);
-      transition: transform 0.1s, box-shadow 0.1s;
-    }
-    .badge:hover {
-      transform: translate(-2px, -2px);
-      box-shadow: 6px 6px 0 var(--pixel);
-    }
-
-    .hero-team {
+      background: rgba(232,197,71,0.15);
+      border: 1px solid rgba(232,197,71,0.4);
+      color: var(--accent-light);
+      padding: 0.4rem 1rem;
+      border-radius: 50px;
       font-size: 0.85rem;
-      color: var(--card);
-      opacity: 0.7;
     }
-
-    .scroll-hint {
-      position: absolute;
-      bottom: 2rem;
-      left: 50%;
-      transform: translateX(-50%);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 0.5rem;
-      animation: bounce 1.5s infinite;
-      opacity: 0.7;
-    }
-    .scroll-hint span { font-family: 'Press Start 2P', monospace; font-size: 1.5rem; color: var(--accent); }
-    @keyframes bounce {
-      0%,100% { transform: translateX(-50%) translateY(0); }
-      50% { transform: translateX(-50%) translateY(10px); }
-    }
+    .hero-team { font-size: 0.85rem; color: rgba(255,255,255,0.5); }
+    .scroll-hint { position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; gap: 0.5rem; animation: bounce 2s infinite; opacity: 0.5; }
+    .scroll-hint span { font-size: 1.5rem; }
+    @keyframes bounce { 0%,100%{transform:translateX(-50%) translateY(0)} 50%{transform:translateX(-50%) translateY(8px)} }
 
     /* Sections */
     section { padding: 5rem 2rem; max-width: 1100px; margin: 0 auto; }
-
     .section-title { text-align: center; margin-bottom: 3rem; }
-    .section-title h2 {
-      font-family: 'Press Start 2P', monospace;
-      font-size: 1rem;
-      color: var(--pixel);
-      margin-bottom: 0.5rem;
-      text-shadow: 2px 2px 0 var(--accent);
-    }
-    .section-title p { color: var(--text); opacity: 0.7; }
+    .section-title h2 { font-size: 1.8rem; color: var(--primary-dark); margin-bottom: 0.5rem; font-weight: 700; }
+    .section-title p { color: var(--text-light); }
 
-    /* Pixel Card */
-    .pixel-card {
-      background: var(--card);
-      border: 4px solid var(--pixel);
-      box-shadow: 6px 6px 0 var(--pixel);
-      padding: 1.8rem;
-      transition: transform 0.15s, box-shadow 0.15s;
-      position: relative;
-    }
-    .pixel-card:hover {
-      transform: translate(-3px, -3px);
-      box-shadow: 9px 9px 0 var(--pixel);
-    }
-    .pixel-card::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0;
-      width: 100%;
-      height: 4px;
-      background: repeating-linear-gradient(90deg, var(--accent), var(--accent) 20px, var(--pixel) 20px, var(--pixel) 22px);
-    }
-
-    /* Cards Grid */
-    .cards-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; }
-    .pixel-card .card-icon { font-size: 2.5rem; margin-bottom: 0.75rem; }
-    .pixel-card h3 { color: var(--pixel); margin-bottom: 0.75rem; font-size: 1rem; font-weight: 700; }
-    .pixel-card p { color: var(--text); opacity: 0.8; font-size: 0.95rem; }
+    /* Cards */
+    .cards-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; }
+    .card { background: var(--card); border-radius: 12px; padding: 1.8rem; box-shadow: 0 2px 20px rgba(0,0,0,0.06); transition: all 0.3s ease; }
+    .card:hover { transform: translateY(-6px); box-shadow: 0 12px 40px rgba(0,0,0,0.12); }
+    .card-icon { font-size: 2.5rem; margin-bottom: 0.75rem; }
+    .card h3 { color: var(--primary-dark); margin-bottom: 0.6rem; font-size: 1.1rem; font-weight: 600; }
+    .card p { color: var(--text-light); font-size: 0.95rem; }
 
     /* Quote */
-    .pixel-quote {
+    .quote-box {
       background: var(--card);
-      border: 4px solid var(--accent);
-      box-shadow: 6px 6px 0 var(--pixel);
+      border-left: 4px solid var(--accent);
       padding: 1.5rem 2rem;
       margin: 2rem auto;
       max-width: 700px;
-      text-align: center;
-      position: relative;
+      border-radius: 0 12px 12px 0;
+      box-shadow: 0 2px 16px rgba(0,0,0,0.06);
     }
-    .pixel-quote::before {
-      content: '"';
-      position: absolute;
-      top: -20px; left: 20px;
-      font-family: 'Press Start 2P', monospace;
-      font-size: 4rem;
-      color: var(--accent);
-      opacity: 0.5;
-    }
-    .pixel-quote p { font-style: italic; font-size: 1.1rem; color: var(--text); }
+    .quote-box p { font-style: italic; color: var(--text); font-size: 1.05rem; text-align: center; }
 
     /* Pixel Gallery */
     .pixel-gallery { display: flex; flex-wrap: wrap; gap: 1.5rem; justify-content: center; margin: 2rem 0; }
-    .pixel-art-frame {
-      background: var(--card);
-      border: 4px solid var(--pixel);
-      box-shadow: 6px 6px 0 var(--pixel);
-      padding: 1rem;
-      text-align: center;
-      transition: transform 0.15s;
-    }
-    .pixel-art-frame:hover { transform: translate(-3px, -3px); }
-    .pixel-art-frame img {
-      max-width: 180px;
-      max-height: 120px;
-      image-rendering: pixelated;
-      border: 2px solid var(--pixel);
-    }
-    .pixel-art-frame p {
-      margin-top: 0.5rem;
-      font-size: 0.8rem;
-      color: var(--text);
-      font-weight: 500;
-    }
+    .pixel-item { background: var(--card); border-radius: 10px; padding: 1rem; box-shadow: 0 2px 12px rgba(0,0,0,0.06); text-align: center; transition: all 0.3s; }
+    .pixel-item:hover { transform: translateY(-4px); box-shadow: 0 8px 25px rgba(0,0,0,0.1); }
+    .pixel-item img { max-width: 150px; max-height: 100px; image-rendering: pixelated; border: 2px solid #333; border-radius: 4px; }
+    .pixel-item p { margin-top: 0.5rem; font-size: 0.8rem; color: var(--text-light); }
 
-    /* Tech Grid */
-    .tech-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; }
-    .tech-chip {
-      background: var(--pixel);
-      color: var(--card);
-      border: 3px solid var(--accent);
-      padding: 1rem 1.2rem;
-      display: flex;
-      align-items: center;
-      gap: 0.8rem;
-      font-size: 0.9rem;
-      font-weight: 500;
-      transition: background 0.2s;
-    }
-    .tech-chip:hover { background: var(--accent); color: var(--pixel); }
+    /* Tech */
+    .tech-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; }
+    .tech-chip { background: var(--card); padding: 1rem 1.2rem; border-radius: 8px; display: flex; align-items: center; gap: 0.8rem; box-shadow: 0 2px 10px rgba(0,0,0,0.05); border: 1px solid #eee; transition: all 0.3s; }
+    .tech-chip:hover { border-color: var(--accent); transform: translateY(-2px); }
     .tech-chip .icon { font-size: 1.3rem; }
+    .tech-chip .label { font-weight: 600; color: var(--primary-dark); font-size: 0.9rem; }
 
     /* Stats */
     .stats-row { display: flex; justify-content: center; flex-wrap: wrap; gap: 3rem; margin: 2rem 0; }
-    .pixel-stat {
-      text-align: center;
-      background: var(--card);
-      border: 4px solid var(--pixel);
-      box-shadow: 6px 6px 0 var(--pixel);
-      padding: 1.5rem 2.5rem;
-    }
-    .pixel-stat .number {
-      font-family: 'Press Start 2P', monospace;
-      font-size: 2rem;
-      color: var(--accent);
-      text-shadow: 2px 2px 0 var(--pixel);
-      line-height: 1;
-    }
-    .pixel-stat .label { color: var(--text); font-size: 0.85rem; margin-top: 0.5rem; }
+    .stat { text-align: center; }
+    .stat .number { font-size: 3rem; font-weight: 700; color: var(--primary-dark); line-height: 1; }
+    .stat .label { color: var(--text-light); margin-top: 0.5rem; font-size: 0.9rem; }
 
-    /* Cluster Cards */
+    /* Cluster */
     .cluster-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.5rem; }
-    .cluster-card {
-      background: var(--card);
-      border: 4px solid var(--pixel);
-      box-shadow: 6px 6px 0 var(--pixel);
-      padding: 1.5rem;
-      border-top: 6px solid var(--accent2);
-    }
-    .cluster-card h4 { color: var(--pixel); margin-bottom: 0.5rem; font-size: 0.95rem; }
-    .cluster-card p { color: var(--text); opacity: 0.75; font-size: 0.9rem; }
+    .cluster-card { background: var(--card); padding: 1.5rem; border-radius: 12px; box-shadow: 0 2px 16px rgba(0,0,0,0.06); border-top: 3px solid var(--accent); }
+    .cluster-card h4 { color: var(--primary-dark); margin-bottom: 0.5rem; font-size: 1rem; }
+    .cluster-card p { color: var(--text-light); font-size: 0.9rem; }
 
-    /* Future Items */
+    /* Future */
     .future-list { max-width: 700px; margin: 0 auto; }
-    .future-item { display: flex; gap: 1.5rem; margin-bottom: 1.5rem; align-items: flex-start; }
-    .future-icon { font-size: 2.5rem; flex-shrink: 0; }
-    .future-item h4 { color: var(--pixel); margin-bottom: 0.25rem; font-size: 1rem; }
-    .future-item p { color: var(--text); opacity: 0.75; font-size: 0.9rem; }
+    .future-item { display: flex; gap: 1.5rem; margin-bottom: 1.8rem; align-items: flex-start; }
+    .future-icon { font-size: 2.2rem; flex-shrink: 0; }
+    .future-item h4 { color: var(--primary-dark); margin-bottom: 0.25rem; font-size: 1rem; font-weight: 600; }
+    .future-item p { color: var(--text-light); font-size: 0.9rem; }
 
     /* Team */
     .team-grid { display: flex; justify-content: center; flex-wrap: wrap; gap: 2.5rem; }
     .team-member { text-align: center; }
-    .team-avatar {
-      width: 80px; height: 80px;
-      border: 4px solid var(--pixel);
-      box-shadow: 4px 4px 0 var(--pixel);
-      background: var(--accent2);
-      color: var(--pixel);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 2rem;
-      margin: 0 auto 0.5rem;
-    }
+    .team-avatar { width: 80px; height: 80px; border-radius: 50%; background: linear-gradient(135deg, var(--primary), var(--primary-dark)); color: white; display: flex; align-items: center; justify-content: center; font-size: 2rem; margin: 0 auto 0.6rem; box-shadow: 0 4px 15px rgba(42,79,52,0.3); }
     .team-member h4 { font-weight: 500; font-size: 0.9rem; }
 
     /* Footer */
-    footer {
-      background: var(--pixel);
-      color: var(--card);
-      text-align: center;
-      padding: 3rem 2rem;
-      border-top: 6px solid var(--accent);
-    }
-    footer .brand {
-      font-family: 'Press Start 2P', monospace;
-      font-size: 0.8rem;
-      color: var(--accent);
-      margin-bottom: 0.5rem;
-      text-shadow: 2px 2px 0 rgba(0,0,0,0.5);
-    }
+    footer { background: var(--pixel); color: white; text-align: center; padding: 3rem 2rem; }
+    footer .brand { font-size: 1.3rem; margin-bottom: 0.5rem; font-weight: 700; }
     footer p { opacity: 0.6; font-size: 0.85rem; }
     footer .studio { margin-top: 0.5rem; font-size: 0.75rem; opacity: 0.4; }
 
@@ -371,10 +196,8 @@
     .reveal { opacity: 0; transform: translateY(25px); transition: all 0.5s ease; }
     .reveal.active { opacity: 1; transform: translateY(0); }
 
-    /* Responsive */
     @media (max-width: 768px) {
-      .hero h1 { font-size: 1.2rem; }
-      .hero-logo { font-size: 3.5rem; }
+      .hero h1 { font-size: 2rem; }
       section { padding: 3rem 1.5rem; }
       .nav-links { display: none; }
     }
@@ -396,22 +219,21 @@
 </nav>
 
 <section class="hero">
-  <div class="hero-bg"></div>
-  <div class="hero-overlay"></div>
-  <div class="hero-pixel-border"></div>
+  <div class="hero-poster">
+    <img src="images/hero-title.png" alt="燕园主理人">
+  </div>
   <div class="hero-content">
-    <div class="hero-logo">🏛️</div>
     <h1>燕园主理人</h1>
-    <p class="subtitle">YANYUAN MANAGER</p>
+    <p class="subtitle">Yanyuan Manager</p>
     <p class="tagline">"玩"成每个人的公共空间创意</p>
     <div class="hero-badges">
-      <span class="badge">🎮 经营放置</span>
-      <span class="badge">🗺️ 空间共创</span>
-      <span class="badge">🤝 公众参与</span>
+      <span class="badge">🎮 经营放置游戏</span>
+      <span class="badge">🗺️ 校园空间共创</span>
+      <span class="badge">🤝 公众参与治理</span>
     </div>
     <p class="hero-team">李明选 · 余修宽 · 杨文静 · 杨希澜</p>
   </div>
-  <div class="scroll-hint"><span>▼</span></div>
+  <div class="scroll-hint"><span>↓</span></div>
 </section>
 
 <section id="about">
@@ -419,21 +241,21 @@
     <h2>关于项目</h2>
     <p>规划不是自上而下的蓝图，而是自下而上的对话</p>
   </div>
-  <div class="pixel-quote">
+  <div class="quote-box">
     <p>城市化进程过快，规划决策与实际需求脱节。我们相信：游戏化可以成为公众参与城市治理的新媒介。</p>
   </div>
   <div class="cards-grid">
-    <div class="pixel-card reveal">
+    <div class="card reveal">
       <div class="card-icon">🎯</div>
       <h3>打破空间壁垒</h3>
       <p>虚拟城市空间与现实空间深度互动，游戏化媒介成为公众参与规划的有效路径。</p>
     </div>
-    <div class="pixel-card reveal">
+    <div class="card reveal">
       <div class="card-icon">🚪</div>
       <h3>降低参与门槛</h3>
       <p>严肃游戏融合互动机制与情境模拟，让全年龄段都能参与复杂规划。</p>
     </div>
-    <div class="pixel-card reveal">
+    <div class="card reveal">
       <div class="card-icon">⚡</div>
       <h3>提升参与效率</h3>
       <p>虚拟界面让居民直接进行空间布局，数据收集效率远高于传统调研。</p>
@@ -447,35 +269,35 @@
     <p>15-30分钟完成"发现-改造-效益"循环</p>
   </div>
   <div class="cards-grid">
-    <div class="pixel-card reveal">
+    <div class="card reveal">
       <div class="card-icon">📍</div>
       <h3>定位发现</h3>
       <p>地理围栏 + GPS，现实中发现地块、"你画我猜"式验证解锁空间。</p>
     </div>
-    <div class="pixel-card reveal">
+    <div class="card reveal">
       <div class="card-icon">🏗️</div>
       <h3>网格建造</h3>
       <p>130+物品，4大类（设施/装饰/植被/铺装），放置·旋转·删除·叠加。</p>
     </div>
-    <div class="pixel-card reveal">
+    <div class="card reveal">
       <div class="card-icon">🤖</div>
       <h3>AI NPC</h3>
       <p>DeepSeek API 驱动，Raby 兔子陪你对话，解锁任务限定装扮。</p>
     </div>
-    <div class="pixel-card reveal">
+    <div class="card reveal">
       <div class="card-icon">☁️</div>
       <h3>云端存档</h3>
       <p>LeanCloud 支持数据云同步，好友校园互联互通。</p>
     </div>
   </div>
 
-  <h3 style="text-align:center; margin-top:3rem; font-family:'Press Start 2P',monospace; font-size:0.7rem; color:var(--pixel); text-shadow:2px 2px 0 var(--accent);">🎨 像素美术</h3>
+  <h3 style="text-align:center; margin-top:3rem; color:var(--primary-dark); font-size:1.2rem;">🎨 像素美术素材</h3>
   <div class="pixel-gallery">
-    <div class="pixel-art-frame"><img src="images/像素风小岛.png" alt=""><p>像素风小岛</p></div>
-    <div class="pixel-art-frame"><img src="images/兔子.png" alt=""><p>Raby 兔子</p></div>
-    <div class="pixel-art-frame"><img src="images/呆呆鸟.png" alt=""><p>呆呆鸟 NPC</p></div>
-    <div class="pixel-art-frame"><img src="images/余修宽踢杨锡兰 像素风.png" alt=""><p>角色像素</p></div>
-    <div class="pixel-art-frame"><img src="images/李明选 杨文静像素风奔跑.png" alt=""><p>奔跑动画</p></div>
+    <div class="pixel-item"><img src="images/像素风小岛.png" alt=""><p>像素风小岛</p></div>
+    <div class="pixel-item"><img src="images/兔子.png" alt=""><p>Raby 兔子</p></div>
+    <div class="pixel-item"><img src="images/呆呆鸟.png" alt=""><p>呆呆鸟 NPC</p></div>
+    <div class="pixel-item"><img src="images/余修宽踢杨锡兰 像素风.png" alt=""><p>角色像素</p></div>
+    <div class="pixel-item"><img src="images/李明选 杨文静像素风奔跑.png" alt=""><p>奔跑动画</p></div>
   </div>
 </section>
 
@@ -485,14 +307,14 @@
     <p>Unity · LeanCloud · DeepSeek · K-means</p>
   </div>
   <div class="tech-grid">
-    <div class="tech-chip reveal"><span class="icon">🎮</span>Unity 引擎</div>
-    <div class="tech-chip reveal"><span class="icon">🗄️</span>LeanCloud</div>
-    <div class="tech-chip reveal"><span class="icon">🤖</span>DeepSeek API</div>
-    <div class="tech-chip reveal"><span class="icon">📍</span>地理围栏 GPS</div>
-    <div class="tech-chip reveal"><span class="icon">📊</span>K-means 聚类</div>
-    <div class="tech-chip reveal"><span class="icon">🖼️</span>图像处理</div>
-    <div class="tech-chip reveal"><span class="icon">🎨</span>像素美术</div>
-    <div class="tech-chip reveal"><span class="icon">📱</span>安卓 + Windows</div>
+    <div class="tech-chip reveal"><span class="icon">🎮</span><span class="label">Unity 引擎</span></div>
+    <div class="tech-chip reveal"><span class="icon">🗄️</span><span class="label">LeanCloud</span></div>
+    <div class="tech-chip reveal"><span class="icon">🤖</span><span class="label">DeepSeek API</span></div>
+    <div class="tech-chip reveal"><span class="icon">📍</span><span class="label">地理围栏 GPS</span></div>
+    <div class="tech-chip reveal"><span class="icon">📊</span><span class="label">K-means 聚类</span></div>
+    <div class="tech-chip reveal"><span class="icon">🖼️</span><span class="label">图像处理</span></div>
+    <div class="tech-chip reveal"><span class="icon">🎨</span><span class="label">像素美术</span></div>
+    <div class="tech-chip reveal"><span class="icon">📱</span><span class="label">安卓 + Windows</span></div>
   </div>
 </section>
 
@@ -502,9 +324,9 @@
     <p>18名玩家 · 130+物品 · 3种空间类型</p>
   </div>
   <div class="stats-row">
-    <div class="pixel-stat reveal"><div class="number" data-target="18">0</div><div class="label">内测玩家</div></div>
-    <div class="pixel-stat reveal"><div class="number" data-target="130">0</div><div class="label">建造物品</div></div>
-    <div class="pixel-stat reveal"><div class="number" data-target="3">0</div><div class="label">空间类型</div></div>
+    <div class="stat reveal"><div class="number" data-target="18">0</div><div class="label">内测玩家</div></div>
+    <div class="stat reveal"><div class="number" data-target="130">0</div><div class="label">建造物品</div></div>
+    <div class="stat reveal"><div class="number" data-target="3">0</div><div class="label">空间类型</div></div>
   </div>
   <div class="cluster-grid">
     <div class="cluster-card reveal"><h4>🌿 景观导向型</h4><p>绿地占主导，景观丰富的空间类型。</p></div>
@@ -546,15 +368,13 @@
 <script>
   const nav = document.querySelector('.nav');
   window.addEventListener('scroll', () => {
-    nav.style.background = window.scrollY > 50 ? 'rgba(45,37,32,0.98)' : 'rgba(45,37,32,0.9)';
+    nav.style.background = window.scrollY > 50 ? 'rgba(26,26,26,0.98)' : 'rgba(26,26,26,0.92)';
   });
-
   const reveals = document.querySelectorAll('.reveal');
   const io = new IntersectionObserver(entries => {
     entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('active'); });
   }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
   reveals.forEach(el => io.observe(el));
-
   const counters = document.querySelectorAll('.number[data-target]');
   let started = false;
   function startCounters() {
