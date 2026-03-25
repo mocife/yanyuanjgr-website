@@ -11,6 +11,7 @@
       --primary: #2d5a3d;
       --primary-light: #3d7a52;
       --accent: #c9a84c;
+      --accent-light: #e0c06a;
       --bg: #f8f6f1;
       --card-bg: #ffffff;
       --text: #2c2c2c;
@@ -23,11 +24,77 @@
       box-sizing: border-box;
     }
 
+    html {
+      scroll-behavior: smooth;
+    }
+
     body {
       font-family: 'Noto Sans SC', sans-serif;
       background: var(--bg);
       color: var(--text);
       line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    /* Nav */
+    .nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      padding: 1rem 2rem;
+      transition: all 0.3s ease;
+    }
+
+    .nav.scrolled {
+      background: rgba(255,255,255,0.95);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 2px 20px rgba(0,0,0,0.08);
+      padding: 0.75rem 2rem;
+    }
+
+    .nav-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .nav-logo {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--primary);
+      text-decoration: none;
+      opacity: 0;
+      transform: translateY(-20px);
+      animation: slideDown 0.6s ease forwards 0.2s;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: var(--text);
+      text-decoration: none;
+      font-size: 0.95rem;
+      opacity: 0;
+      transform: translateY(-20px);
+      animation: slideDown 0.6s ease forwards;
+    }
+
+    .nav-links li:nth-child(1) a { animation-delay: 0.3s; }
+    .nav-links li:nth-child(2) a { animation-delay: 0.4s; }
+    .nav-links li:nth-child(3) a { animation-delay: 0.5s; }
+    .nav-links li:nth-child(4) a { animation-delay: 0.6s; }
+    .nav-links li:nth-child(5) a { animation-delay: 0.7s; }
+
+    @keyframes slideDown {
+      to { opacity: 1; transform: translateY(0); }
     }
 
     /* Hero */
@@ -45,6 +112,16 @@
       overflow: hidden;
     }
 
+    .hero canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      opacity: 0.6;
+    }
+
     .hero::before {
       content: '';
       position: absolute;
@@ -52,41 +129,52 @@
       right: -30%;
       width: 80%;
       height: 200%;
-      background: radial-gradient(ellipse, rgba(201,168,76,0.15) 0%, transparent 70%);
+      background: radial-gradient(ellipse, rgba(201,168,76,0.2) 0%, transparent 70%);
       pointer-events: none;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
     }
 
     .hero-logo {
       font-size: 4rem;
       margin-bottom: 1.5rem;
-      animation: float 3s ease-in-out infinite;
+      opacity: 0;
+      transform: scale(0.5);
+      animation: logoReveal 1s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards 0.5s;
     }
 
-    @keyframes float {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-10px); }
+    @keyframes logoReveal {
+      to { opacity: 1; transform: scale(1); }
     }
 
     .hero h1 {
-      font-size: 3rem;
+      font-size: 3.5rem;
       font-weight: 700;
       margin-bottom: 0.5rem;
       letter-spacing: 0.05em;
+      opacity: 0;
+      transform: translateY(30px);
+      animation: fadeUp 0.8s ease forwards 0.7s;
     }
 
     .hero .subtitle {
-      font-size: 1.25rem;
-      opacity: 0.9;
+      font-size: 1.4rem;
+      opacity: 0;
       margin-bottom: 2rem;
       font-weight: 300;
+      animation: fadeUp 0.8s ease forwards 0.9s;
     }
 
     .hero .tagline {
-      font-size: 1.1rem;
-      opacity: 0.8;
+      font-size: 1.15rem;
+      opacity: 0;
       max-width: 500px;
       margin-bottom: 2.5rem;
       font-style: italic;
+      animation: fadeUp 0.8s ease forwards 1.1s;
     }
 
     .hero-badges {
@@ -94,7 +182,8 @@
       gap: 1rem;
       flex-wrap: wrap;
       justify-content: center;
-      margin-bottom: 3rem;
+      opacity: 0;
+      animation: fadeUp 0.8s ease forwards 1.3s;
     }
 
     .badge {
@@ -103,23 +192,52 @@
       border-radius: 50px;
       font-size: 0.9rem;
       border: 1px solid rgba(255,255,255,0.2);
+      transition: all 0.3s ease;
+    }
+
+    .badge:hover {
+      background: rgba(255,255,255,0.25);
+      transform: translateY(-2px);
+    }
+
+    @keyframes fadeUp {
+      to { opacity: 1; transform: translateY(0); }
     }
 
     .scroll-hint {
       position: absolute;
       bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%);
       display: flex;
       flex-direction: column;
       align-items: center;
       gap: 0.5rem;
-      opacity: 0.7;
-      animation: bounce 2s infinite;
+      opacity: 0;
+      animation: fadeUp 0.8s ease forwards 1.5s, bounce 2s ease-in-out infinite 2s;
     }
 
     @keyframes bounce {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(8px); }
+      0%, 100% { transform: translateX(-50%) translateY(0); }
+      50% { transform: translateX(-50%) translateY(8px); }
     }
+
+    /* Reveal animations */
+    .reveal {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: all 0.8s cubic-bezier(0.5, 0, 0, 1);
+    }
+
+    .reveal.active {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+    .reveal-delay-4 { transition-delay: 0.4s; }
 
     /* Sections */
     section {
@@ -134,7 +252,7 @@
     }
 
     .section-title h2 {
-      font-size: 2rem;
+      font-size: 2.2rem;
       color: var(--primary);
       margin-bottom: 0.5rem;
     }
@@ -168,6 +286,12 @@
       max-width: 700px;
       border-radius: 0 8px 8px 0;
       box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+      transition: all 0.3s ease;
+    }
+
+    .quote-box:hover {
+      box-shadow: 0 8px 30px rgba(0,0,0,0.1);
+      transform: translateX(5px);
     }
 
     .quote-box p {
@@ -188,17 +312,23 @@
       border-radius: 12px;
       padding: 2rem;
       box-shadow: 0 2px 16px rgba(0,0,0,0.06);
-      transition: transform 0.2s, box-shadow 0.2s;
+      transition: all 0.4s cubic-bezier(0.5, 0, 0, 1);
+      cursor: pointer;
     }
 
     .feature-card:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 8px 30px rgba(0,0,0,0.1);
+      transform: translateY(-8px);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.12);
     }
 
     .feature-icon {
       font-size: 2.5rem;
       margin-bottom: 1rem;
+      transition: transform 0.3s ease;
+    }
+
+    .feature-card:hover .feature-icon {
+      transform: scale(1.2) rotate(5deg);
     }
 
     .feature-card h3 {
@@ -218,6 +348,11 @@
       border-radius: 16px;
       padding: 3rem;
       box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+      transition: all 0.4s ease;
+    }
+
+    .game-intro:hover {
+      box-shadow: 0 12px 40px rgba(0,0,0,0.1);
     }
 
     .game-intro h3 {
@@ -233,6 +368,25 @@
       margin: 1.5rem 0;
       font-size: 1.05rem;
       line-height: 1.8;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .game-intro .core-play::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent);
+      transform: rotate(45deg);
+      animation: shimmer 3s infinite;
+    }
+
+    @keyframes shimmer {
+      0% { transform: translateX(-100%) rotate(45deg); }
+      100% { transform: translateX(100%) rotate(45deg); }
     }
 
     .game-meta {
@@ -268,6 +422,13 @@
       align-items: center;
       gap: 1rem;
       box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+      transition: all 0.3s ease;
+      cursor: default;
+    }
+
+    .tech-item:hover {
+      transform: translateY(-4px) scale(1.02);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
     }
 
     .tech-item .icon {
@@ -297,7 +458,7 @@
     }
 
     .stat .number {
-      font-size: 3rem;
+      font-size: 3.5rem;
       font-weight: 700;
       color: var(--primary);
       line-height: 1;
@@ -320,6 +481,30 @@
       padding: 1.5rem;
       border-radius: 10px;
       box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+      transition: all 0.4s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cluster-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 4px;
+      height: 100%;
+      background: var(--accent);
+      transform: scaleY(0);
+      transition: transform 0.3s ease;
+    }
+
+    .cluster-card:hover::before {
+      transform: scaleY(1);
+    }
+
+    .cluster-card:hover {
+      transform: translateX(5px);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.1);
     }
 
     .cluster-card h4 {
@@ -346,11 +531,21 @@
       gap: 1.5rem;
       margin-bottom: 2rem;
       align-items: flex-start;
+      transition: all 0.3s ease;
+    }
+
+    .future-item:hover {
+      transform: translateX(10px);
     }
 
     .future-icon {
       font-size: 2rem;
       flex-shrink: 0;
+      transition: transform 0.3s ease;
+    }
+
+    .future-item:hover .future-icon {
+      transform: scale(1.3) rotate(10deg);
     }
 
     .future-item h4 {
@@ -368,24 +563,36 @@
       display: flex;
       justify-content: center;
       flex-wrap: wrap;
-      gap: 2rem;
+      gap: 3rem;
     }
 
     .team-member {
       text-align: center;
+      transition: all 0.3s ease;
+    }
+
+    .team-member:hover {
+      transform: translateY(-8px);
     }
 
     .team-avatar {
-      width: 80px;
-      height: 80px;
+      width: 90px;
+      height: 90px;
       border-radius: 50%;
-      background: var(--primary);
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
       color: white;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1.8rem;
+      font-size: 2rem;
       margin: 0 auto 0.75rem;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(45,90,61,0.3);
+    }
+
+    .team-member:hover .team-avatar {
+      transform: scale(1.1);
+      box-shadow: 0 8px 25px rgba(45,90,61,0.4);
     }
 
     .team-member h4 {
@@ -398,16 +605,36 @@
       color: white;
       text-align: center;
       padding: 3rem 2rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    footer::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(ellipse at center, rgba(201,168,76,0.1) 0%, transparent 50%);
+      animation: pulse 4s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); opacity: 0.5; }
+      50% { transform: scale(1.1); opacity: 1; }
     }
 
     footer .brand {
       font-size: 1.5rem;
       margin-bottom: 0.5rem;
+      position: relative;
     }
 
     footer p {
       opacity: 0.7;
       font-size: 0.9rem;
+      position: relative;
     }
 
     footer .studio {
@@ -419,23 +646,42 @@
     /* Responsive */
     @media (max-width: 768px) {
       .hero h1 { font-size: 2.2rem; }
+      .hero-logo { font-size: 3rem; }
       section { padding: 4rem 1.5rem; }
       .game-intro { padding: 2rem 1.5rem; }
+      .nav-links { display: none; }
     }
   </style>
 </head>
 <body>
 
+<!-- Nav -->
+<nav class="nav" id="nav">
+  <div class="nav-inner">
+    <a href="#" class="nav-logo">🏛️ 燕园主理人</a>
+    <ul class="nav-links">
+      <li><a href="#about">关于</a></li>
+      <li><a href="#game">游戏</a></li>
+      <li><a href="#tech">技术</a></li>
+      <li><a href="#data">数据</a></li>
+      <li><a href="#future">愿景</a></li>
+    </ul>
+  </div>
+</nav>
+
 <!-- Hero -->
 <section class="hero">
-  <div class="hero-logo">🏛️</div>
-  <h1>燕园主理人</h1>
-  <p class="subtitle">Yanyuan Manager</p>
-  <p class="tagline">"玩"成每个人的公共空间创意</p>
-  <div class="hero-badges">
-    <span class="badge">🎮 经营类放置游戏</span>
-    <span class="badge">🗺️ 校园空间共创</span>
-    <span class="badge">🤝 公众参与治理</span>
+  <canvas id="particleCanvas"></canvas>
+  <div class="hero-content">
+    <div class="hero-logo">🏛️</div>
+    <h1>燕园主理人</h1>
+    <p class="subtitle">Yanyuan Manager</p>
+    <p class="tagline">"玩"成每个人的公共空间创意</p>
+    <div class="hero-badges">
+      <span class="badge">🎮 经营类放置游戏</span>
+      <span class="badge">🗺️ 校园空间共创</span>
+      <span class="badge">🤝 公众参与治理</span>
+    </div>
   </div>
   <div class="scroll-hint">
     <span>向下滚动</span>
@@ -445,34 +691,34 @@
 
 <!-- About -->
 <section id="about">
-  <div class="section-title">
+  <div class="section-title reveal">
     <p class="en">Project Background</p>
     <h2>01 项目背景</h2>
     <p>为什么我们需要燕园主理人？</p>
   </div>
 
-  <p class="about-text">
+  <p class="about-text reveal reveal-delay-1">
     城市化进程过快，规划决策与实际需求脱节，存量公共空间存在诸多问题。
     城市规划复杂且门槛高，公众参与深度不足。
     我们相信：<strong>规划不是自上而下的蓝图，而是自下而上的对话。</strong>
   </p>
 
-  <div class="quote-box">
+  <div class="quote-box reveal reveal-delay-2">
     <p>"规划不是自上而下的蓝图，而是自下而上的对话。"</p>
   </div>
 
   <div class="features-grid">
-    <div class="feature-card">
+    <div class="feature-card reveal reveal-delay-1">
       <div class="feature-icon">🎯</div>
       <h3>打破空间壁垒</h3>
       <p>虚拟城市空间已成为现实空间的镜像与延伸，游戏化媒介是公众参与的有效路径。</p>
     </div>
-    <div class="feature-card">
+    <div class="feature-card reveal reveal-delay-2">
       <div class="feature-icon">🚪</div>
       <h3>降低参与门槛</h3>
       <p>严肃游戏融合互动机制与情境模拟，让全年龄段都能参与复杂规划。</p>
     </div>
-    <div class="feature-card">
+    <div class="feature-card reveal reveal-delay-3">
       <div class="feature-icon">⚡</div>
       <h3>提升参与效率</h3>
       <p>虚拟界面让居民直接进行空间布局，数据收集效率远高于传统调研。</p>
@@ -482,13 +728,13 @@
 
 <!-- Game Intro -->
 <section id="game">
-  <div class="section-title">
+  <div class="section-title reveal">
     <p class="en">Game Design</p>
     <h2>02 游戏设计</h2>
     <p>《燕园主理人》— 经营类放置装修游戏</p>
   </div>
 
-  <div class="game-intro">
+  <div class="game-intro reveal reveal-delay-1">
     <h3>🎮 核心玩法</h3>
     <div class="core-play">
       玩家以北大学生的身份，在校园中探索、发现各类空间问题，通过资源管理和创意设计，亲手改造并激活校园空间，提升师生满意度和校园活力。
@@ -507,22 +753,22 @@
   </div>
 
   <div class="features-grid" style="margin-top: 2rem;">
-    <div class="feature-card">
+    <div class="feature-card reveal reveal-delay-1">
       <div class="feature-icon">📍</div>
       <h3>定位发现</h3>
       <p>地理围栏算法 + "你画我猜"式交互验证，在现实中发现地块、解锁空间。</p>
     </div>
-    <div class="feature-card">
+    <div class="feature-card reveal reveal-delay-2">
       <div class="feature-icon">🏗️</div>
       <h3>网格建造</h3>
       <p>130+物品库，4大类（公共设施/装饰艺术/景观植被/道路铺装），支持放置、旋转、删除。</p>
     </div>
-    <div class="feature-card">
+    <div class="feature-card reveal reveal-delay-3">
       <div class="feature-icon">🤖</div>
       <h3>AI NPC</h3>
       <p>DeepSeek API 驱动的智能体对话 NPC，Raby 活泼兔等你来解锁！</p>
     </div>
-    <div class="feature-card">
+    <div class="feature-card reveal reveal-delay-4">
       <div class="feature-icon">☁️</div>
       <h3>云端存档</h3>
       <p>LeanCloud 后端支持，建造数据云端同步，好友校园互联互通。</p>
@@ -532,48 +778,48 @@
 
 <!-- Tech -->
 <section id="tech">
-  <div class="section-title">
+  <div class="section-title reveal">
     <p class="en">Tech Stack</p>
     <h2>技术架构</h2>
   </div>
 
   <div class="tech-grid">
-    <div class="tech-item">
+    <div class="tech-item reveal reveal-delay-1">
       <span class="icon">🎯</span>
       <div>
         <div class="label">Unity</div>
         <div class="desc">游戏引擎 / 跨平台构建</div>
       </div>
     </div>
-    <div class="tech-item">
+    <div class="tech-item reveal reveal-delay-2">
       <span class="icon">🗄️</span>
       <div>
         <div class="label">LeanCloud</div>
         <div class="desc">BaaS 云端数据中心</div>
       </div>
     </div>
-    <div class="tech-item">
+    <div class="tech-item reveal reveal-delay-3">
       <span class="icon">🤖</span>
       <div>
         <div class="label">DeepSeek API</div>
         <div class="desc">AI NPC 智能对话</div>
       </div>
     </div>
-    <div class="tech-item">
+    <div class="tech-item reveal reveal-delay-1">
       <span class="icon">🗺️</span>
       <div>
         <div class="label">地理围栏</div>
         <div class="desc">LBS 位置服务与 GPS</div>
       </div>
     </div>
-    <div class="tech-item">
+    <div class="tech-item reveal reveal-delay-2">
       <span class="icon">📊</span>
       <div>
         <div class="label">K-means</div>
         <div class="desc">空间特征聚类分析</div>
       </div>
     </div>
-    <div class="tech-item">
+    <div class="tech-item reveal reveal-delay-3">
       <span class="icon">🖼️</span>
       <div>
         <div class="label">图像处理</div>
@@ -585,37 +831,37 @@
 
 <!-- Data -->
 <section id="data">
-  <div class="section-title">
+  <div class="section-title reveal">
     <p class="en">Data Analysis</p>
     <h2>数据分析</h2>
     <p>安卓端 + Windows 端内测，18 名玩家</p>
   </div>
 
   <div class="stats-row">
-    <div class="stat">
-      <div class="number">18</div>
+    <div class="stat reveal reveal-delay-1">
+      <div class="number" data-target="18">0</div>
       <div class="label">内测玩家</div>
     </div>
-    <div class="stat">
-      <div class="number">130+</div>
+    <div class="stat reveal reveal-delay-2">
+      <div class="number" data-target="130">0</div>
       <div class="label">建造物品</div>
     </div>
-    <div class="stat">
-      <div class="number">3</div>
+    <div class="stat reveal reveal-delay-3">
+      <div class="number" data-target="3">0</div>
       <div class="label">空间聚类类型</div>
     </div>
   </div>
 
   <div class="cluster-results">
-    <div class="cluster-card">
+    <div class="cluster-card reveal reveal-delay-1">
       <h4>🌿 Cluster 0：景观导向型</h4>
       <p>以绿色植被为主导，景观丰富的空间类型。</p>
     </div>
-    <div class="cluster-card">
+    <div class="cluster-card reveal reveal-delay-2">
       <h4>🏢 Cluster 1：集中核心型</h4>
       <p>建筑密度较高、结构相对集中的空间布局。</p>
     </div>
-    <div class="cluster-card">
+    <div class="cluster-card reveal reveal-delay-3">
       <h4>🛤️ Cluster 2：交通导向型</h4>
       <p>道路结构复杂、空间较为碎片化的区域。</p>
     </div>
@@ -624,34 +870,34 @@
 
 <!-- Future -->
 <section id="future">
-  <div class="section-title">
+  <div class="section-title reveal">
     <p class="en">Future Vision</p>
     <h2>未来愿景</h2>
   </div>
 
   <div class="future-list">
-    <div class="future-item">
+    <div class="future-item reveal reveal-delay-1">
       <div class="future-icon">🏫</div>
       <div>
         <h4>落地校园</h4>
         <p>与学校保卫处、房管部合作，让热门提案真正落地为现实设施，实现公众参与闭环。</p>
       </div>
     </div>
-    <div class="future-item">
+    <div class="future-item reveal reveal-delay-2">
       <div class="future-icon">🌉</div>
       <div>
         <h4>连接现实</h4>
         <p>以游戏为桥，让"空间共创"连接更真实、走进更多场景。</p>
       </div>
     </div>
-    <div class="future-item">
+    <div class="future-item reveal reveal-delay-3">
       <div class="future-icon">🏘️</div>
       <div>
         <h4>拓展边界</h4>
         <p>从校园建设推广至老旧小区改造等更广泛的城市微更新领域。</p>
       </div>
     </div>
-    <div class="future-item">
+    <div class="future-item reveal reveal-delay-4">
       <div class="future-icon">💡</div>
       <div>
         <h4>输出方案</h4>
@@ -663,25 +909,25 @@
 
 <!-- Team -->
 <section id="team">
-  <div class="section-title">
+  <div class="section-title reveal">
     <p class="en">Project Team</p>
     <h2>团队成员</h2>
   </div>
 
   <div class="team-grid">
-    <div class="team-member">
+    <div class="team-member reveal reveal-delay-1">
       <div class="team-avatar">👤</div>
       <h4>李明选</h4>
     </div>
-    <div class="team-member">
+    <div class="team-member reveal reveal-delay-2">
       <div class="team-avatar">👤</div>
       <h4>余修宽</h4>
     </div>
-    <div class="team-member">
+    <div class="team-member reveal reveal-delay-3">
       <div class="team-avatar">👤</div>
       <h4>杨文静</h4>
     </div>
-    <div class="team-member">
+    <div class="team-member reveal reveal-delay-4">
       <div class="team-avatar">👤</div>
       <h4>杨希澜</h4>
     </div>
@@ -694,6 +940,130 @@
   <p>"玩"成每个人的公共空间创意</p>
   <p class="studio">Y³ & L¹ Studio</p>
 </footer>
+
+<script>
+  // Particle canvas
+  const canvas = document.getElementById('particleCanvas');
+  const ctx = canvas.getContext('2d');
+  let particles = [];
+
+  function resizeCanvas() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  }
+  resizeCanvas();
+  window.addEventListener('resize', resizeCanvas);
+
+  class Particle {
+    constructor() {
+      this.x = Math.random() * canvas.width;
+      this.y = Math.random() * canvas.height;
+      this.size = Math.random() * 2 + 1;
+      this.speedX = Math.random() * 0.5 - 0.25;
+      this.speedY = Math.random() * 0.5 - 0.25;
+      this.opacity = Math.random() * 0.5 + 0.2;
+    }
+
+    update() {
+      this.x += this.speedX;
+      this.y += this.speedY;
+
+      if (this.x < 0 || this.x > canvas.width) this.speedX *= -1;
+      if (this.y < 0 || this.y > canvas.height) this.speedY *= -1;
+    }
+
+    draw() {
+      ctx.beginPath();
+      ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(201, 168, 76, ${this.opacity})`;
+      ctx.fill();
+    }
+  }
+
+  function initParticles() {
+    particles = [];
+    const particleCount = Math.min(80, Math.floor(canvas.width * canvas.height / 15000));
+    for (let i = 0; i < particleCount; i++) {
+      particles.push(new Particle());
+    }
+  }
+
+  function animateParticles() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    particles.forEach(p => {
+      p.update();
+      p.draw();
+    });
+    requestAnimationFrame(animateParticles);
+  }
+
+  initParticles();
+  animateParticles();
+
+  // Nav scroll effect
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 50) {
+      nav.classList.add('scrolled');
+    } else {
+      nav.classList.remove('scrolled');
+    }
+  });
+
+  // Scroll reveal
+  const revealElements = document.querySelectorAll('.reveal');
+
+  const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('active');
+      }
+    });
+  }, {
+    threshold: 0.1,
+    rootMargin: '0px 0px -50px 0px'
+  });
+
+  revealElements.forEach(el => revealObserver.observe(el));
+
+  // Counter animation
+  const counters = document.querySelectorAll('.number[data-target]');
+  let countersStarted = false;
+
+  function startCounters() {
+    counters.forEach(counter => {
+      const target = parseInt(counter.getAttribute('data-target'));
+      const duration = 2000;
+      const start = performance.now();
+
+      function update(currentTime) {
+        const elapsed = currentTime - start;
+        const progress = Math.min(elapsed / duration, 1);
+        const easeOut = 1 - Math.pow(1 - progress, 3);
+        const current = Math.floor(target * easeOut);
+
+        counter.textContent = target > 100 ? current + '+' : current;
+
+        if (progress < 1) {
+          requestAnimationFrame(update);
+        }
+      }
+
+      requestAnimationFrame(update);
+    });
+  }
+
+  const counterObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting && !countersStarted) {
+        countersStarted = true;
+        startCounters();
+      }
+    });
+  }, { threshold: 0.5 });
+
+  counters.forEach(counter => counterObserver.observe(counter));
+</script>
 
 </body>
 </html>
