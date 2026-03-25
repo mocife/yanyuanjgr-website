@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>燕园主理人 — 玩成每个人的公共空间创意</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #2d5a3d;
+      --primary-light: #3d7a52;
+      --accent: #c9a84c;
+      --bg: #f8f6f1;
+      --card-bg: #ffffff;
+      --text: #2c2c2c;
+      --text-light: #666;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Noto Sans SC', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+    }
+
+    /* Hero */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      background: linear-gradient(135deg, var(--primary) 0%, #1a3d2a 100%);
+      color: white;
+      padding: 2rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -30%;
+      width: 80%;
+      height: 200%;
+      background: radial-gradient(ellipse, rgba(201,168,76,0.15) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .hero-logo {
+      font-size: 4rem;
+      margin-bottom: 1.5rem;
+      animation: float 3s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    .hero h1 {
+      font-size: 3rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      letter-spacing: 0.05em;
+    }
+
+    .hero .subtitle {
+      font-size: 1.25rem;
+      opacity: 0.9;
+      margin-bottom: 2rem;
+      font-weight: 300;
+    }
+
+    .hero .tagline {
+      font-size: 1.1rem;
+      opacity: 0.8;
+      max-width: 500px;
+      margin-bottom: 2.5rem;
+      font-style: italic;
+    }
+
+    .hero-badges {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-bottom: 3rem;
+    }
+
+    .badge {
+      background: rgba(255,255,255,0.15);
+      padding: 0.5rem 1.2rem;
+      border-radius: 50px;
+      font-size: 0.9rem;
+      border: 1px solid rgba(255,255,255,0.2);
+    }
+
+    .scroll-hint {
+      position: absolute;
+      bottom: 2rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      opacity: 0.7;
+      animation: bounce 2s infinite;
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(8px); }
+    }
+
+    /* Sections */
+    section {
+      padding: 6rem 2rem;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .section-title {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+
+    .section-title h2 {
+      font-size: 2rem;
+      color: var(--primary);
+      margin-bottom: 0.5rem;
+    }
+
+    .section-title p {
+      color: var(--text-light);
+      font-size: 1.05rem;
+    }
+
+    .section-title .en {
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      opacity: 0.6;
+    }
+
+    /* About */
+    .about-text {
+      font-size: 1.15rem;
+      text-align: center;
+      max-width: 750px;
+      margin: 0 auto 3rem;
+      color: var(--text-light);
+    }
+
+    .quote-box {
+      background: var(--card-bg);
+      border-left: 4px solid var(--accent);
+      padding: 1.5rem 2rem;
+      margin: 2rem auto;
+      max-width: 700px;
+      border-radius: 0 8px 8px 0;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+    }
+
+    .quote-box p {
+      font-style: italic;
+      color: var(--text);
+      font-size: 1.1rem;
+    }
+
+    /* Features */
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .feature-card {
+      background: var(--card-bg);
+      border-radius: 12px;
+      padding: 2rem;
+      box-shadow: 0 2px 16px rgba(0,0,0,0.06);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 30px rgba(0,0,0,0.1);
+    }
+
+    .feature-icon {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .feature-card h3 {
+      color: var(--primary);
+      margin-bottom: 0.75rem;
+      font-size: 1.15rem;
+    }
+
+    .feature-card p {
+      color: var(--text-light);
+      font-size: 0.95rem;
+    }
+
+    /* Game Intro */
+    .game-intro {
+      background: var(--card-bg);
+      border-radius: 16px;
+      padding: 3rem;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+    }
+
+    .game-intro h3 {
+      color: var(--primary);
+      margin-bottom: 1rem;
+    }
+
+    .game-intro .core-play {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+      color: white;
+      padding: 1.5rem 2rem;
+      border-radius: 10px;
+      margin: 1.5rem 0;
+      font-size: 1.05rem;
+      line-height: 1.8;
+    }
+
+    .game-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+      margin-top: 1.5rem;
+    }
+
+    .meta-item {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .meta-item span:first-child {
+      font-weight: 600;
+      color: var(--primary);
+    }
+
+    /* Tech Stack */
+    .tech-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+    }
+
+    .tech-item {
+      background: var(--card-bg);
+      padding: 1.2rem 1.5rem;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    }
+
+    .tech-item .icon {
+      font-size: 1.5rem;
+    }
+
+    .tech-item .label {
+      font-weight: 500;
+    }
+
+    .tech-item .desc {
+      font-size: 0.85rem;
+      color: var(--text-light);
+    }
+
+    /* Data */
+    .stats-row {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 3rem;
+      margin-bottom: 3rem;
+    }
+
+    .stat {
+      text-align: center;
+    }
+
+    .stat .number {
+      font-size: 3rem;
+      font-weight: 700;
+      color: var(--primary);
+      line-height: 1;
+    }
+
+    .stat .label {
+      color: var(--text-light);
+      margin-top: 0.5rem;
+      font-size: 0.95rem;
+    }
+
+    .cluster-results {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .cluster-card {
+      background: var(--card-bg);
+      padding: 1.5rem;
+      border-radius: 10px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+    }
+
+    .cluster-card h4 {
+      color: var(--primary);
+      margin-bottom: 0.75rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .cluster-card p {
+      color: var(--text-light);
+      font-size: 0.9rem;
+    }
+
+    /* Future */
+    .future-list {
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    .future-item {
+      display: flex;
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+      align-items: flex-start;
+    }
+
+    .future-icon {
+      font-size: 2rem;
+      flex-shrink: 0;
+    }
+
+    .future-item h4 {
+      color: var(--primary);
+      margin-bottom: 0.3rem;
+    }
+
+    .future-item p {
+      color: var(--text-light);
+      font-size: 0.95rem;
+    }
+
+    /* Team */
+    .team-grid {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 2rem;
+    }
+
+    .team-member {
+      text-align: center;
+    }
+
+    .team-avatar {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: var(--primary);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.8rem;
+      margin: 0 auto 0.75rem;
+    }
+
+    .team-member h4 {
+      font-weight: 500;
+    }
+
+    /* Footer */
+    footer {
+      background: var(--primary);
+      color: white;
+      text-align: center;
+      padding: 3rem 2rem;
+    }
+
+    footer .brand {
+      font-size: 1.5rem;
+      margin-bottom: 0.5rem;
+    }
+
+    footer p {
+      opacity: 0.7;
+      font-size: 0.9rem;
+    }
+
+    footer .studio {
+      margin-top: 1rem;
+      font-size: 0.85rem;
+      opacity: 0.5;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .hero h1 { font-size: 2.2rem; }
+      section { padding: 4rem 1.5rem; }
+      .game-intro { padding: 2rem 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Hero -->
+<section class="hero">
+  <div class="hero-logo">🏛️</div>
+  <h1>燕园主理人</h1>
+  <p class="subtitle">Yanyuan Manager</p>
+  <p class="tagline">"玩"成每个人的公共空间创意</p>
+  <div class="hero-badges">
+    <span class="badge">🎮 经营类放置游戏</span>
+    <span class="badge">🗺️ 校园空间共创</span>
+    <span class="badge">🤝 公众参与治理</span>
+  </div>
+  <div class="scroll-hint">
+    <span>向下滚动</span>
+    <span>↓</span>
+  </div>
+</section>
+
+<!-- About -->
+<section id="about">
+  <div class="section-title">
+    <p class="en">Project Background</p>
+    <h2>01 项目背景</h2>
+    <p>为什么我们需要燕园主理人？</p>
+  </div>
+
+  <p class="about-text">
+    城市化进程过快，规划决策与实际需求脱节，存量公共空间存在诸多问题。
+    城市规划复杂且门槛高，公众参与深度不足。
+    我们相信：<strong>规划不是自上而下的蓝图，而是自下而上的对话。</strong>
+  </p>
+
+  <div class="quote-box">
+    <p>"规划不是自上而下的蓝图，而是自下而上的对话。"</p>
+  </div>
+
+  <div class="features-grid">
+    <div class="feature-card">
+      <div class="feature-icon">🎯</div>
+      <h3>打破空间壁垒</h3>
+      <p>虚拟城市空间已成为现实空间的镜像与延伸，游戏化媒介是公众参与的有效路径。</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">🚪</div>
+      <h3>降低参与门槛</h3>
+      <p>严肃游戏融合互动机制与情境模拟，让全年龄段都能参与复杂规划。</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">⚡</div>
+      <h3>提升参与效率</h3>
+      <p>虚拟界面让居民直接进行空间布局，数据收集效率远高于传统调研。</p>
+    </div>
+  </div>
+</section>
+
+<!-- Game Intro -->
+<section id="game">
+  <div class="section-title">
+    <p class="en">Game Design</p>
+    <h2>02 游戏设计</h2>
+    <p>《燕园主理人》— 经营类放置装修游戏</p>
+  </div>
+
+  <div class="game-intro">
+    <h3>🎮 核心玩法</h3>
+    <div class="core-play">
+      玩家以北大学生的身份，在校园中探索、发现各类空间问题，通过资源管理和创意设计，亲手改造并激活校园空间，提升师生满意度和校园活力。
+    </div>
+
+    <div class="game-meta">
+      <div class="meta-item">
+        <span>🗺️</span>
+        <span>可探索区域：北京大学景观学院与城环学院园区</span>
+      </div>
+      <div class="meta-item">
+        <span>⏱️</span>
+        <span>游戏时长：15-30分钟完成一个完整循环</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="features-grid" style="margin-top: 2rem;">
+    <div class="feature-card">
+      <div class="feature-icon">📍</div>
+      <h3>定位发现</h3>
+      <p>地理围栏算法 + "你画我猜"式交互验证，在现实中发现地块、解锁空间。</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">🏗️</div>
+      <h3>网格建造</h3>
+      <p>130+物品库，4大类（公共设施/装饰艺术/景观植被/道路铺装），支持放置、旋转、删除。</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">🤖</div>
+      <h3>AI NPC</h3>
+      <p>DeepSeek API 驱动的智能体对话 NPC，Raby 活泼兔等你来解锁！</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">☁️</div>
+      <h3>云端存档</h3>
+      <p>LeanCloud 后端支持，建造数据云端同步，好友校园互联互通。</p>
+    </div>
+  </div>
+</section>
+
+<!-- Tech -->
+<section id="tech">
+  <div class="section-title">
+    <p class="en">Tech Stack</p>
+    <h2>技术架构</h2>
+  </div>
+
+  <div class="tech-grid">
+    <div class="tech-item">
+      <span class="icon">🎯</span>
+      <div>
+        <div class="label">Unity</div>
+        <div class="desc">游戏引擎 / 跨平台构建</div>
+      </div>
+    </div>
+    <div class="tech-item">
+      <span class="icon">🗄️</span>
+      <div>
+        <div class="label">LeanCloud</div>
+        <div class="desc">BaaS 云端数据中心</div>
+      </div>
+    </div>
+    <div class="tech-item">
+      <span class="icon">🤖</span>
+      <div>
+        <div class="label">DeepSeek API</div>
+        <div class="desc">AI NPC 智能对话</div>
+      </div>
+    </div>
+    <div class="tech-item">
+      <span class="icon">🗺️</span>
+      <div>
+        <div class="label">地理围栏</div>
+        <div class="desc">LBS 位置服务与 GPS</div>
+      </div>
+    </div>
+    <div class="tech-item">
+      <span class="icon">📊</span>
+      <div>
+        <div class="label">K-means</div>
+        <div class="desc">空间特征聚类分析</div>
+      </div>
+    </div>
+    <div class="tech-item">
+      <span class="icon">🖼️</span>
+      <div>
+        <div class="label">图像处理</div>
+        <div class="desc">RGB→HSV 空间量化</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Data -->
+<section id="data">
+  <div class="section-title">
+    <p class="en">Data Analysis</p>
+    <h2>数据分析</h2>
+    <p>安卓端 + Windows 端内测，18 名玩家</p>
+  </div>
+
+  <div class="stats-row">
+    <div class="stat">
+      <div class="number">18</div>
+      <div class="label">内测玩家</div>
+    </div>
+    <div class="stat">
+      <div class="number">130+</div>
+      <div class="label">建造物品</div>
+    </div>
+    <div class="stat">
+      <div class="number">3</div>
+      <div class="label">空间聚类类型</div>
+    </div>
+  </div>
+
+  <div class="cluster-results">
+    <div class="cluster-card">
+      <h4>🌿 Cluster 0：景观导向型</h4>
+      <p>以绿色植被为主导，景观丰富的空间类型。</p>
+    </div>
+    <div class="cluster-card">
+      <h4>🏢 Cluster 1：集中核心型</h4>
+      <p>建筑密度较高、结构相对集中的空间布局。</p>
+    </div>
+    <div class="cluster-card">
+      <h4>🛤️ Cluster 2：交通导向型</h4>
+      <p>道路结构复杂、空间较为碎片化的区域。</p>
+    </div>
+  </div>
+</section>
+
+<!-- Future -->
+<section id="future">
+  <div class="section-title">
+    <p class="en">Future Vision</p>
+    <h2>未来愿景</h2>
+  </div>
+
+  <div class="future-list">
+    <div class="future-item">
+      <div class="future-icon">🏫</div>
+      <div>
+        <h4>落地校园</h4>
+        <p>与学校保卫处、房管部合作，让热门提案真正落地为现实设施，实现公众参与闭环。</p>
+      </div>
+    </div>
+    <div class="future-item">
+      <div class="future-icon">🌉</div>
+      <div>
+        <h4>连接现实</h4>
+        <p>以游戏为桥，让"空间共创"连接更真实、走进更多场景。</p>
+      </div>
+    </div>
+    <div class="future-item">
+      <div class="future-icon">🏘️</div>
+      <div>
+        <h4>拓展边界</h4>
+        <p>从校园建设推广至老旧小区改造等更广泛的城市微更新领域。</p>
+      </div>
+    </div>
+    <div class="future-item">
+      <div class="future-icon">💡</div>
+      <div>
+        <h4>输出方案</h4>
+        <p>提供一套低门槛、激发创意的"公众参与"设计解决方案。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Team -->
+<section id="team">
+  <div class="section-title">
+    <p class="en">Project Team</p>
+    <h2>团队成员</h2>
+  </div>
+
+  <div class="team-grid">
+    <div class="team-member">
+      <div class="team-avatar">👤</div>
+      <h4>李明选</h4>
+    </div>
+    <div class="team-member">
+      <div class="team-avatar">👤</div>
+      <h4>余修宽</h4>
+    </div>
+    <div class="team-member">
+      <div class="team-avatar">👤</div>
+      <h4>杨文静</h4>
+    </div>
+    <div class="team-member">
+      <div class="team-avatar">👤</div>
+      <h4>杨希澜</h4>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer>
+  <div class="brand">🏛️ 燕园主理人</div>
+  <p>"玩"成每个人的公共空间创意</p>
+  <p class="studio">Y³ & L¹ Studio</p>
+</footer>
+
+</body>
+</html>
