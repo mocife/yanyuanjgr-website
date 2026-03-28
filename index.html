@@ -2,478 +2,436 @@
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>燕园主理人 — 玩成每个人的公共空间创意</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>燕园主理人 — 用游戏参与校园共建</title>
+  <meta name="description" content="燕园主理人是一款以北京大学校园为原型的像素风城市建造游戏。化身校园主理人，发现问题、提交方案、参与共建，让规划从蓝图变成对话。">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><rect width="32" height="32" fill="%230d1117"/><rect x="8" y="8" width="6" height="10" fill="%2358a6ff"/><rect x="16" y="6" width="8" height="12" fill="%2358a6ff"/><rect x="10" y="18" width="12" height="6" fill="%233fb950"/><rect x="6" y="22" width="4" height="4" fill="%233fb950"/><rect x="22" y="20" width="4" height="6" fill="%23d29922"/></svg>">
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
-  <style>
-    :root {
-      --primary: #3d6b4a;
-      --primary-dark: #2a4f34;
-      --accent: #e8c547;
-      --bg: #f7f4ef;
-      --card: #ffffff;
-      --text: #2c2c2c;
-      --text-light: #666;
-    }
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    html { scroll-snap-type: y mandatory; }
-    body { font-family: 'Noto Sans SC', sans-serif; background: var(--bg); color: var(--text); overflow-x: hidden; }
-
-    /* Progress bar */
-    .progress-bar {
-      position: fixed;
-      top: 0; left: 0;
-      height: 3px;
-      background: var(--accent);
-      z-index: 9999;
-      transition: width 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    }
-
-    /* Page dots */
-    .page-dots {
-      position: fixed;
-      right: 1rem;
-      top: 50%;
-      transform: translateY(-50%);
-      display: flex;
-      flex-direction: column;
-      gap: 0.5rem;
-      z-index: 999;
-    }
-    .dot {
-      width: 8px; height: 8px;
-      border-radius: 50%;
-      background: rgba(0,0,0,0.2);
-      transition: all 0.3s ease;
-      cursor: pointer;
-    }
-    .dot.active {
-      background: var(--accent);
-      transform: scale(1.4);
-      box-shadow: 0 0 6px rgba(232,197,71,0.6);
-    }
-
-    section {
-      min-height: 100vh;
-      scroll-snap-align: start;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      padding: 4rem 1.2rem 2rem;
-      position: relative;
-      transition: transform 0.1s ease;
-    }
-    section > * { max-width: 580px; margin-left: auto; margin-right: auto; width: 100%; }
-
-    /* Hero */
-    .hero {
-      background: linear-gradient(170deg, #1a1a1a 0%, #2a4f34 60%, #1a1a1a 100%);
-      color: white;
-      text-align: center;
-      padding-top: 3rem;
-    }
-    .hero-poster {
-      margin-bottom: 0.8rem;
-      border-radius: 6px;
-      overflow: hidden;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.4);
-      border: 2px solid rgba(255,255,255,0.1);
-      transition: transform 0.6s ease;
-    }
-    .hero-poster:hover { transform: scale(1.01); }
-    .hero-poster img { width: 100%; height: auto; display: block; }
-    .hero h1 { font-size: 1.6rem; font-weight: 700; margin-bottom: 0.2rem; transition: transform 0.3s ease; }
-    .hero .subtitle { font-size: 0.9rem; color: var(--accent); margin-bottom: 0.6rem; }
-    .hero .tagline { font-size: 0.8rem; color: rgba(255,255,255,0.7); font-style: italic; margin-bottom: 0.8rem; }
-    .hero-badges { display: flex; gap: 0.4rem; flex-wrap: wrap; justify-content: center; margin-bottom: 0.8rem; }
-    .badge { background: rgba(232,197,71,0.15); border: 1px solid rgba(232,197,71,0.35); color: var(--accent); padding: 0.25rem 0.7rem; border-radius: 50px; font-size: 0.7rem; transition: transform 0.2s; }
-    .badge:hover { transform: translateY(-2px); }
-    .hero-team { font-size: 0.7rem; color: rgba(255,255,255,0.5); }
-    .scroll-hint { position: absolute; bottom: 1rem; left: 50%; transform: translateX(-50%); opacity: 0.4; font-size: 1rem; animation: bounce 2s infinite; }
-    @keyframes bounce { 0%,100%{transform:translateX(-50%) translateY(0)} 50%{transform:translateX(-50%) translateY(5px)} }
-
-    /* Cards */
-    .cards-grid { display: grid; gap: 0.6rem; margin-top: 0.6rem; }
-    .card {
-      background: var(--card);
-      border-radius: 10px;
-      padding: 0.9rem 1rem;
-      box-shadow: 0 1px 8px rgba(0,0,0,0.06);
-      display: flex;
-      gap: 0.7rem;
-      align-items: flex-start;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-    .card:hover { transform: translateX(4px); box-shadow: 0 4px 16px rgba(0,0,0,0.1); }
-    .card-icon { font-size: 1.6rem; flex-shrink: 0; transition: transform 0.3s ease; }
-    .card:hover .card-icon { transform: scale(1.15) rotate(-5deg); }
-    .card-content h3 { color: var(--primary-dark); font-size: 0.9rem; font-weight: 600; margin-bottom: 0.15rem; }
-    .card-content p { color: var(--text-light); font-size: 0.78rem; line-height: 1.45; }
-
-    /* Section title */
-    .section-title { text-align: center; margin-bottom: 0.8rem; }
-    .section-title h2 { font-size: 1.3rem; color: var(--primary-dark); font-weight: 700; margin-bottom: 0.2rem; }
-    .section-title p { color: var(--text-light); font-size: 0.8rem; }
-
-    /* Quote */
-    .quote-box { background: var(--card); border-left: 3px solid var(--accent); padding: 0.8rem 1rem; border-radius: 0 8px 8px 0; margin: 0.6rem 0; box-shadow: 0 1px 6px rgba(0,0,0,0.06); }
-    .quote-box p { font-style: italic; font-size: 0.85rem; color: var(--text); text-align: center; line-height: 1.6; }
-
-    /* Tech */
-    .tech-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.5rem; margin-top: 0.8rem; }
-    .tech-chip {
-      background: var(--card);
-      padding: 0.6rem 0.7rem;
-      border-radius: 8px;
-      display: flex;
-      align-items: center;
-      gap: 0.4rem;
-      box-shadow: 0 1px 6px rgba(0,0,0,0.05);
-      border: 1px solid #eee;
-      transition: all 0.2s ease;
-    }
-    .tech-chip:hover { border-color: var(--accent); transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
-    .tech-chip .icon { font-size: 1rem; }
-    .tech-chip .label { font-weight: 600; color: var(--primary-dark); font-size: 0.75rem; }
-
-    /* Stats */
-    .stats-row { display: flex; justify-content: center; gap: 1.5rem; margin: 0.8rem 0; }
-    .stat { text-align: center; }
-    .stat .number { font-size: 1.8rem; font-weight: 700; color: var(--primary-dark); line-height: 1; }
-    .stat .label { color: var(--text-light); font-size: 0.7rem; margin-top: 0.1rem; }
-
-    /* Cluster */
-    .cluster-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem; margin-top: 0.6rem; }
-    .cluster-card {
-      background: var(--card);
-      padding: 0.7rem;
-      border-radius: 8px;
-      box-shadow: 0 1px 6px rgba(0,0,0,0.06);
-      border-top: 2px solid var(--accent);
-      transition: transform 0.3s ease;
-    }
-    .cluster-card:hover { transform: translateY(-4px); }
-    .cluster-card h4 { color: var(--primary-dark); font-size: 0.75rem; margin-bottom: 0.15rem; }
-    .cluster-card p { color: var(--text-light); font-size: 0.68rem; line-height: 1.4; }
-
-    /* Future */
-    .future-list { margin-top: 0.6rem; }
-    .future-item { display: flex; gap: 0.7rem; margin-bottom: 0.7rem; align-items: flex-start; transition: transform 0.2s; }
-    .future-item:hover { transform: translateX(4px); }
-    .future-icon { font-size: 1.4rem; flex-shrink: 0; }
-    .future-item h4 { color: var(--primary-dark); font-size: 0.88rem; font-weight: 600; margin-bottom: 0.1rem; }
-    .future-item p { color: var(--text-light); font-size: 0.78rem; }
-
-    /* Team */
-    .team-row { display: flex; justify-content: center; gap: 1.2rem; margin-top: 0.8rem; }
-    .team-member { text-align: center; }
-    .team-avatar {
-      width: 46px; height: 46px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-      color: white;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 1.2rem;
-      margin: 0 auto 0.25rem;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-    .team-member:hover .team-avatar { transform: scale(1.15); box-shadow: 0 4px 15px rgba(42,79,52,0.4); }
-    .team-member h4 { font-weight: 500; font-size: 0.7rem; }
-
-    footer { background: #1a1a1a; color: white; text-align: center; padding: 1.2rem 2rem; scroll-snap-align: start; }
-    footer .brand { font-size: 0.9rem; margin-bottom: 0.2rem; font-weight: 700; }
-    footer p { opacity: 0.6; font-size: 0.7rem; }
-
-    @media (min-width: 768px) {
-      section > * { max-width: 860px; }
-      section { padding: 5rem 2rem 3rem; }
-      .cards-grid { grid-template-columns: repeat(3, 1fr); gap: 0.8rem; }
-      .tech-grid { grid-template-columns: repeat(4, 1fr); gap: 0.7rem; }
-      .hero h1 { font-size: 2.2rem; }
-      .hero .subtitle { font-size: 1.1rem; }
-      .section-title h2 { font-size: 1.5rem; }
-      .page-dots { right: 1.5rem; }
-      .dot { width: 10px; height: 10px; }
-    }
-  </style>
-</head>
-<body>
-
-<div class="progress-bar" id="progressBar"></div>
-<div class="page-dots" id="pageDots"></div>
-
-<!-- Screen 1: Hero -->
-<section class="hero" id="hero">
-  <div class="hero-poster">
-    <img src="images/hero-title.png" alt="燕园主理人">
-  </div>
-  <h1>燕园主理人</h1>
-  <p class="subtitle">Yanyuan Manager</p>
-  <p class="tagline">"玩"成每个人的公共空间创意</p>
-  <div class="hero-badges">
-    <span class="badge">🎮 经营放置</span>
-    <span class="badge">🗺️ 空间共创</span>
-    <span class="badge">🤝 公众参与</span>
-  </div>
-  <p class="hero-team">李明选 · 余修宽 · 杨文静 · 杨希澜</p>
-  <div class="scroll-hint">↓</div>
-</section>
-
-<!-- Screen 2: About -->
-<section id="about">
-  <div class="section-title">
-    <h2>关于项目</h2>
-    <p>规划不是自上而下的蓝图，而是自下而上的对话</p>
-  </div>
-  <div class="quote-box">
-    <p>城市化进程过快，规划决策与实际需求脱节。游戏化可以成为公众参与城市治理的新媒介。</p>
-  </div>
-  <div class="cards-grid">
-    <div class="card">
-      <div class="card-icon">🎯</div>
-      <div class="card-content">
-        <h3>打破空间壁垒</h3>
-        <p>虚拟城市空间与现实深度互动，游戏化成为公众参与的有效路径。</p>
-      </div>
-    </div>
-    <div class="card">
-      <div class="card-icon">🚪</div>
-      <div class="card-content">
-        <h3>降低参与门槛</h3>
-        <p>严肃游戏融合互动机制与情境模拟，让全年龄段都能参与。</p>
-      </div>
-    </div>
-    <div class="card">
-      <div class="card-icon">⚡</div>
-      <div class="card-content">
-        <h3>提升参与效率</h3>
-        <p>虚拟界面让居民直接布局，数据收集效率远高于传统调研。</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- Screen 3: Game -->
-<section id="game">
-  <div class="section-title">
-    <h2>游戏设计</h2>
-    <p>15-30分钟完成"发现-改造-效益"循环</p>
-  </div>
-  <div class="cards-grid">
-    <div class="card">
-      <div class="card-icon">📍</div>
-      <div class="card-content">
-        <h3>定位发现</h3>
-        <p>地理围栏+GPS，现实中发现地块，"你画我猜"式验证解锁。</p>
-      </div>
-    </div>
-    <div class="card">
-      <div class="card-icon">🏗️</div>
-      <div class="card-content">
-        <h3>网格建造</h3>
-        <p>130+物品，4大类（设施/装饰/植被/铺装），放置·旋转·删除。</p>
-      </div>
-    </div>
-    <div class="card">
-      <div class="card-icon">🤖</div>
-      <div class="card-content">
-        <h3>AI NPC</h3>
-        <p>DeepSeek API驱动，Raby兔子陪你对话，解锁任务限定装扮。</p>
-      </div>
-    </div>
-    <div class="card">
-      <div class="card-icon">☁️</div>
-      <div class="card-content">
-        <h3>云端存档</h3>
-        <p>LeanCloud支持数据云同步，好友校园互联互通。</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- Screen 4: Tech -->
-<section id="tech">
-  <div class="section-title">
-    <h2>技术架构</h2>
-    <p>Unity · LeanCloud · DeepSeek · K-means</p>
-  </div>
-  <div class="tech-grid">
-    <div class="tech-chip"><span class="icon">🎮</span><span class="label">Unity 引擎</span></div>
-    <div class="tech-chip"><span class="icon">🗄️</span><span class="label">LeanCloud</span></div>
-    <div class="tech-chip"><span class="icon">🤖</span><span class="label">DeepSeek API</span></div>
-    <div class="tech-chip"><span class="icon">📍</span><span class="label">地理围栏 GPS</span></div>
-    <div class="tech-chip"><span class="icon">📊</span><span class="label">K-means 聚类</span></div>
-    <div class="tech-chip"><span class="icon">🖼️</span><span class="label">图像处理</span></div>
-    <div class="tech-chip"><span class="icon">🎨</span><span class="label">像素美术</span></div>
-    <div class="tech-chip"><span class="icon">📱</span><span class="label">安卓 + Windows</span></div>
-  </div>
-</section>
-
-<!-- Screen 5: Data -->
-<section id="data">
-  <div class="section-title">
-    <h2>数据分析</h2>
-    <p>18名玩家 · 130+物品 · 3种空间类型</p>
-  </div>
-  <div class="stats-row">
-    <div class="stat"><div class="number" data-target="18">0</div><div class="label">内测玩家</div></div>
-    <div class="stat"><div class="number" data-target="130">0</div><div class="label">建造物品</div></div>
-    <div class="stat"><div class="number" data-target="3">0</div><div class="label">空间类型</div></div>
-  </div>
-  <div class="cluster-grid">
-    <div class="cluster-card"><h4>🌿 景观导向型</h4><p>绿地主导，景观丰富。</p></div>
-    <div class="cluster-card"><h4>🏢 集中核心型</h4><p>建筑密度高，结构集中。</p></div>
-    <div class="cluster-card"><h4>🛤️ 交通导向型</h4><p>道路复杂，空间碎片化。</p></div>
-  </div>
-</section>
-
-<!-- Screen 6: Future + Team -->
-<section id="future">
-  <div class="section-title">
-    <h2>未来愿景</h2>
-  </div>
-  <div class="future-list">
-    <div class="future-item">
-      <div class="future-icon">🏫</div>
-      <div><h4>落地校园</h4><p>与校园营建社合作，让热门提案落地为现实设施。</p></div>
-    </div>
-    <div class="future-item">
-      <div class="future-icon">🌉</div>
-      <div><h4>连接现实</h4><p>以游戏为桥，走进更多城市微更新场景。</p></div>
-    </div>
-    <div class="future-item">
-      <div class="future-icon">💡</div>
-      <div><h4>输出方案</h4><p>提供"公众参与"设计的低门槛解决方案。</p></div>
-    </div>
-  </div>
-  <div class="section-title" style="margin-top:1.2rem;">
-    <h2>团队成员</h2>
-  </div>
-  <div class="team-row">
-    <div class="team-member"><div class="team-avatar">👤</div><h4>李明选</h4></div>
-    <div class="team-member"><div class="team-avatar">👤</div><h4>余修宽</h4></div>
-    <div class="team-member"><div class="team-avatar">👤</div><h4>杨文静</h4></div>
-    <div class="team-member"><div class="team-avatar">👤</div><h4>杨希澜</h4></div>
-  </div>
-</section>
-
-<footer>
-  <div class="brand">🏛️ 燕园主理人</div>
-  <p>"玩"成每个人的公共空间创意 · Y³ & L¹ Studio</p>
-</footer>
-
-<script>
-  // ====== Strong Snap Scroll - prevents multi-page jumps ======
-  const sections = document.querySelectorAll('section');
-  const progressBar = document.getElementById('progressBar');
-  const pageDots = document.getElementById('pageDots');
-  let currentIndex = 0;
-  let isScrolling = false;
-  let scrollAccumulator = 0;
-  const SNAP_THRESHOLD = 50; // pixels needed before snapping
-  const SNAP_DURATION = 400; // ms
-
-  // Build dots
-  sections.forEach((_, i) => {
-    const dot = document.createElement('div');
-    dot.className = 'dot' + (i === 0 ? ' active' : '');
-    dot.addEventListener('click', () => scrollToSection(i));
-    pageDots.appendChild(dot);
-  });
-  const dots = document.querySelectorAll('.dot');
-
-  function updateUI() {
-    const progress = (currentIndex / (sections.length - 1)) * 100;
-    progressBar.style.width = progress + '%';
-    dots.forEach((d, i) => d.classList.toggle('active', i === currentIndex));
-  }
-
-  function scrollToSection(index) {
-    if (index < 0 || index >= sections.length || isScrolling) return;
-    currentIndex = index;
-    isScrolling = true;
-    sections[index].scrollIntoView({ behavior: 'smooth', block: 'start' });
-    updateUI();
-    setTimeout(() => { isScrolling = false; }, SNAP_DURATION + 100);
-  }
-
-  // Wheel: accumulate delta
-  window.addEventListener('wheel', (e) => {
-    if (isScrolling) return;
-    e.preventDefault();
-    scrollAccumulator += e.deltaY;
-
-    if (Math.abs(scrollAccumulator) > SNAP_THRESHOLD) {
-      const direction = scrollAccumulator > 0 ? 1 : -1;
-      scrollAccumulator = 0;
-      scrollToSection(currentIndex + direction);
-    }
-  }, { passive: false });
-
-  // Touch: detect swipe direction
-  let touchStartY = 0;
-  let touchDeltaY = 0;
-  window.addEventListener('touchstart', (e) => {
-    touchStartY = e.touches[0].clientY;
-    scrollAccumulator = 0;
-  }, { passive: true });
-
-  window.addEventListener('touchmove', (e) => {
-    if (isScrolling) return;
-    touchDeltaY = touchStartY - e.touches[0].clientY;
-    scrollAccumulator += touchDeltaY;
-    touchStartY = e.touches[0].clientY;
-
-    if (Math.abs(scrollAccumulator) > SNAP_THRESHOLD) {
-      const direction = scrollAccumulator > 0 ? 1 : -1;
-      scrollAccumulator = 0;
-      scrollToSection(currentIndex + direction);
-    }
-  }, { passive: true });
-
-  // Keyboard navigation
-  window.addEventListener('keydown', (e) => {
-    if (e.key === 'ArrowDown' || e.key === 'PageDown') { e.preventDefault(); scrollToSection(currentIndex + 1); }
-    if (e.key === 'ArrowUp' || e.key === 'PageUp') { e.preventDefault(); scrollToSection(currentIndex - 1); }
-  });
-
-  // Intersection observer to detect current section
-  const sectionObserver = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting && !isScrolling) {
-        const idx = Array.from(sections).indexOf(entry.target);
-        if (idx !== currentIndex) {
-          currentIndex = idx;
-          updateUI();
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&family=Noto+Serif+SC:wght@400;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            bg: "#0d1117", surface: "#161b22", border: "#30363d",
+            primary: "#58a6ff", accent: "#f0f6fc", muted: "#8b949e",
+            pixgreen: "#3fb950", pixgold: "#d29922",
+          },
+          fontFamily: {
+            serif: ["Noto Serif SC", "Georgia", "serif"],
+            sans: ["Noto Sans SC", "system-ui", "sans-serif"],
+            mono: ["Space Mono", "monospace"],
+          }
         }
       }
-    });
-  }, { threshold: 0.6 });
+    }
+  </script>
+  <style>
+    * { scroll-behavior: smooth; }
+    body { background: #0d1117; color: #f0f6fc; font-family: "Noto Sans SC", system-ui, sans-serif; }
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: #0d1117; }
+    ::-webkit-scrollbar-thumb { background: #30363d; border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: #58a6ff; }
+    .nav-blur { backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
+    .pixel-star { width: 4px; height: 4px; background: #58a6ff; box-shadow: 0 0 6px #58a6ff; animation: twinkle 3s ease-in-out infinite; }
+    @keyframes twinkle { 0%, 100% { opacity: 0.3; transform: scale(1); } 50% { opacity: 1; transform: scale(1.3); } }
+    .cloud { position: absolute; opacity: 0.06; animation: floatUp 60s linear infinite; pointer-events: none; }
+    @keyframes floatUp { 0% { transform: translateY(0) translateX(0); } 50% { transform: translateY(-30px) translateX(15px); } 100% { transform: translateY(0) translateX(0); } }
+    @keyframes charReveal { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    .title-char { display: inline-block; animation: charReveal 0.4s ease-out both; }
+    .fade-up { opacity: 0; transform: translateY(30px); transition: opacity 0.6s ease-out, transform 0.6s ease-out; }
+    .fade-up.visible { opacity: 1; transform: translateY(0); }
+    .feature-card { transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s; }
+    .feature-card:hover { border-color: #58a6ff; transform: translateY(-4px); box-shadow: 0 8px 32px rgba(88,166,255,0.1); }
+    .gallery-item { transition: transform 0.25s, box-shadow 0.25s; cursor: pointer; }
+    .gallery-item:hover { transform: scale(1.03); box-shadow: 0 12px 40px rgba(0,0,0,0.6); }
+    .gallery-item:hover .gallery-caption { opacity: 1; }
+    .gallery-caption { opacity: 0; transition: opacity 0.25s; }
+    @keyframes pulse { 0%, 100% { box-shadow: 0 0 0 0 rgba(210,153,34,0.4); } 50% { box-shadow: 0 0 0 8px rgba(210,153,34,0); } }
+    .pulse-badge { animation: pulse 2s ease-in-out infinite; }
+    .section-title::after { content: ""; display: block; width: 60px; height: 2px; background: linear-gradient(90deg, #58a6ff, transparent); margin-top: 12px; }
+    .section-title.center::after { margin-left: auto; margin-right: auto; }
+    .pixel-grass { height: 8px; background: repeating-linear-gradient(90deg, #3fb950 0px, #3fb950 8px, #2ea043 8px, #2ea043 12px, transparent 12px, transparent 16px); opacity: 0.6; }
+    #dumbbird {
+      position: fixed;
+      font-size: 48px;
+      line-height: 1;
+      z-index: 9999;
+      pointer-events: none;
+      filter: drop-shadow(0 4px 12px rgba(0,0,0,0.5));
+      transition: transform 0.05s linear;
+      user-select: none;
+    }
+    @keyframes birdBob { 0%,100% { transform: translateY(0) rotate(0deg); } 25% { transform: translateY(-6px) rotate(-5deg); } 75% { transform: translateY(4px) rotate(5deg); } }
+    .bird-bob { animation: birdBob 0.6s ease-in-out infinite; }
+    .mobile-menu { transform: translateX(100%); transition: transform 0.3s ease-out; }
+    .mobile-menu.open { transform: translateX(0); }
+    #lightbox { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.92); z-index: 100; align-items: center; justify-content: center; }
+    #lightbox.active { display: flex; }
+    #lightbox img { max-width: 90vw; max-height: 85vh; border-radius: 8px; box-shadow: 0 0 60px rgba(88,166,255,0.2); }
+  </style>
+</head>
+<body class="antialiased overflow-x-hidden">
 
-  sections.forEach(s => sectionObserver.observe(s));
-  updateUI();
+  <div id="dumbbird" class="bird-bob" style="left:0;top:0;">🐦</div>
 
-  // ====== Counter Animation ======
-  const counters = document.querySelectorAll('.number[data-target]');
-  let countersStarted = false;
-  function startCounters() {
-    counters.forEach(c => {
-      const target = parseInt(c.dataset.target);
-      const dur = 1800, st = performance.now();
-      function up(t) {
-        const p = Math.min((t - st) / dur, 1);
-        const ease = 1 - Math.pow(1 - p, 3);
-        c.textContent = target > 100 ? Math.floor(target * ease) + '+' : Math.floor(target * ease);
-        if (p < 1) requestAnimationFrame(up);
+  <nav id="navbar" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300">
+    <div class="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
+      <a href="#" class="flex items-center gap-3 group">
+        <div class="w-8 h-8 bg-primary/20 border border-primary/40 rounded flex items-center justify-center group-hover:bg-primary/30 transition-colors">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="2" y="4" width="5" height="7" fill="#58a6ff"/><rect x="8" y="2" width="6" height="9" fill="#58a6ff"/><rect x="3" y="11" width="10" height="3" fill="#3fb950"/><rect x="1" y="12" width="3" height="3" fill="#3fb950"/><rect x="12" y="10" width="3" height="5" fill="#d29922"/></svg>
+        </div>
+        <span class="font-serif text-accent font-semibold tracking-wide">燕园主理人</span>
+      </a>
+      <div class="hidden md:flex items-center gap-8 text-sm text-muted">
+        <a href="#about" class="hover:text-primary transition-colors">关于游戏</a>
+        <a href="#features" class="hover:text-primary transition-colors">核心玩法</a>
+        <a href="#gallery" class="hover:text-primary transition-colors">游戏截图</a>
+        <a href="#team" class="hover:text-primary transition-colors">团队</a>
+      </div>
+      <button id="menuBtn" class="md:hidden text-muted hover:text-accent" onclick="toggleMenu()">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+    </div>
+  </nav>
+
+  <div id="mobileMenu" class="mobile-menu fixed inset-0 bg-bg z-40 flex flex-col items-center justify-center gap-8 text-2xl font-serif">
+    <a href="#about" class="text-accent hover:text-primary transition-colors" onclick="toggleMenu()">关于游戏</a>
+    <a href="#features" class="text-accent hover:text-primary transition-colors" onclick="toggleMenu()">核心玩法</a>
+    <a href="#gallery" class="text-accent hover:text-primary transition-colors" onclick="toggleMenu()">游戏截图</a>
+    <a href="#team" class="text-accent hover:text-primary transition-colors" onclick="toggleMenu()">团队</a>
+    <button onclick="toggleMenu()" class="absolute top-6 right-6 text-muted"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+  </div>
+
+  <section class="relative min-h-screen flex flex-col items-center justify-center overflow-hidden">
+    <div class="absolute inset-0">
+      <img src="./screenshots/image1.png" alt="燕园像素地图" class="w-full h-full object-cover opacity-40" loading="eager">
+      <div class="absolute inset-0 bg-gradient-to-b from-bg/60 via-bg/80 to-bg"></div>
+      <div class="absolute inset-0 bg-gradient-to-r from-bg/40 via-transparent to-bg/40"></div>
+    </div>
+    <div class="cloud" style="top:10%;left:5%;animation-delay:0s;"><svg width="120" height="40" viewBox="0 0 120 40"><rect width="120" height="40" fill="white"/></svg></div>
+    <div class="cloud" style="top:20%;right:10%;animation-delay:-20s;opacity:0.05;"><svg width="80" height="30" viewBox="0 0 80 30"><rect width="80" height="30" fill="white"/></svg></div>
+    <div class="pixel-star" style="top:15%;left:20%;"></div>
+    <div class="pixel-star" style="top:25%;right:25%;animation-delay:-1s;"></div>
+    <div class="pixel-star" style="top:40%;left:15%;animation-delay:-2s;"></div>
+    <div class="pixel-star" style="top:30%;right:15%;animation-delay:-0.5s;"></div>
+    <div class="pixel-star" style="top:60%;left:8%;animation-delay:-1.5s;"></div>
+    <div class="pixel-star" style="top:70%;right:20%;animation-delay:-0.8s;"></div>
+    <div class="relative z-10 text-center px-6 max-w-4xl mx-auto">
+      <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-primary/30 bg-primary/10 text-primary text-xs font-mono mb-8 tracking-widest">
+        <span class="w-1.5 h-1.5 rounded-full bg-pixgreen animate-pulse"></span>
+        北京大学 · 课程项目
+      </div>
+      <h1 class="font-serif text-5xl md:text-7xl font-bold text-accent mb-4 leading-tight tracking-tight">燕园主理人</h1>
+      <p class="font-mono text-primary text-lg md:text-xl mb-3 tracking-widest opacity-90">YAN YUAN MANAGER</p>
+      <p class="text-muted text-lg md:text-xl max-w-2xl mx-auto mb-10 leading-relaxed">
+        以北京大学校园为原型的像素风城市建造游戏<br>
+        化身校园主理人，让规划从<span class="text-accent font-medium">蓝图</span>变成<span class="text-accent font-medium">对话</span>
+      </p>
+      <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+        <a href="#about" class="px-8 py-3 bg-primary text-bg font-semibold rounded-lg hover:bg-primary/90 transition-colors tracking-wide">了解更多</a>
+        <a href="#gallery" class="px-8 py-3 border border-border text-muted rounded-lg hover:border-primary/50 hover:text-accent transition-all tracking-wide">查看截图</a>
+      </div>
+    </div>
+    <div class="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-muted animate-bounce">
+      <span class="text-xs tracking-widest font-mono">SCROLL</span>
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 3v10M4 9l4 4 4-4"/></svg>
+    </div>
+  </section>
+
+  <section id="about" class="py-24 px-6">
+    <div class="max-w-4xl mx-auto">
+      <div class="fade-up">
+        <p class="text-primary text-xs font-mono tracking-widest uppercase mb-4">01 / About</p>
+        <h2 class="section-title font-serif text-3xl md:text-4xl font-bold text-accent mb-12">关于游戏</h2>
+      </div>
+      <div class="grid md:grid-cols-2 gap-12 items-center">
+        <div class="fade-up">
+          <p class="text-muted leading-relaxed text-lg mb-6">城市化进程过快，规划决策往往与实际需求脱节。公众参与常流于形式，缺乏深度与实效。</p>
+          <p class="text-muted leading-relaxed text-lg mb-6"><strong class="text-accent">燕园主理人</strong>将复杂的社会问题转化为可交互的"副本"——玩家在像素风的燕园中，发现校园问题、提交改造方案、参与社区共建，体验<span class="text-primary font-medium">15-30分钟</span>的完整"发现—改造—效益"循环。</p>
+          <blockquote class="border-l-2 border-primary pl-6 py-2 italic text-muted">"规划不是自上而下的蓝图，而是自下而上的对话。"</blockquote>
+        </div>
+        <div class="fade-up relative">
+          <div class="rounded-xl overflow-hidden border border-border">
+            <img src="./screenshots/image35.png" alt="游戏概念图" class="w-full object-cover aspect-[4/3] hover:scale-105 transition-transform duration-500">
+          </div>
+          <div class="pixel-grass absolute -bottom-2 left-0 right-0"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="px-6"><div class="max-w-4xl mx-auto h-px bg-gradient-to-r from-transparent via-border to-transparent"></div></div>
+
+  <section id="features" class="py-24 px-6">
+    <div class="max-w-6xl mx-auto">
+      <div class="fade-up text-center mb-16">
+        <p class="text-primary text-xs font-mono tracking-widest uppercase mb-4">02 / Features</p>
+        <h2 class="section-title center font-serif text-3xl md:text-4xl font-bold text-accent mx-auto">核心玩法</h2>
+      </div>
+      <div class="space-y-16">
+        <div class="fade-up grid md:grid-cols-2 gap-8 items-center">
+          <div class="order-2 md:order-1">
+            <div class="flex items-center gap-3 mb-4">
+              <div class="w-10 h-10 rounded-lg bg-pixgreen/20 border border-pixgreen/40 flex items-center justify-center"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#3fb950" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg></div>
+              <h3 class="font-serif text-2xl font-bold text-accent">网格建造系统</h3>
+            </div>
+            <p class="text-muted leading-relaxed mb-6">基于网格化规则的3D空间创作系统，在规定的网格内放置、旋转、移除各类组件，构建个性化的虚拟校园。拥有<span class="text-primary font-medium">130+可放置物品</span>，涵盖公共设施、装饰艺术、景观植被、道路铺装四大类。</p>
+            <ul class="space-y-2 text-sm text-muted">
+              <li class="flex items-center gap-2"><span class="text-pixgreen">✓</span> 精确坐标计算，实时物品管理</li>
+              <li class="flex items-center gap-2"><span class="text-pixgreen">✓</span> 绿色/红色预览，智能冲突检测</li>
+              <li class="flex items-center gap-2"><span class="text-pixgreen">✓</span> 作品保存与云端上传</li>
+            </ul>
+          </div>
+          <div class="order-1 md:order-2 rounded-xl overflow-hidden border border-border">
+            <img src="./screenshots/image56.png" alt="网格建造系统" class="w-full object-cover aspect-[4/3] hover:scale-105 transition-transform duration-500">
+          </div>
+        </div>
+        <div class="fade-up grid md:grid-cols-2 gap-8 items-center">
+          <div class="rounded-xl overflow-hidden border border-border">
+            <img src="./screenshots/image60.jpeg" alt="AI NPC" class="w-full object-cover aspect-[4/3] hover:scale-105 transition-transform duration-500">
+          </div>
+          <div>
+            <div class="flex items-center gap-3 mb-4">
+              <div class="w-10 h-10 rounded-lg bg-primary/20 border border-primary/40 flex items-center justify-center"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#58a6ff" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div>
+              <h3 class="font-serif text-2xl font-bold text-accent">AI 驱动的 NPC</h3>
+            </div>
+            <p class="text-muted leading-relaxed mb-6">接入 DeepSeek API，为每一个 NPC 赋予独特的性格与对话能力。玩家与 NPC 对话，获取任务指引与校园故事，通过积累触发机制解锁更多互动内容。</p>
+            <ul class="space-y-2 text-sm text-muted">
+              <li class="flex items-center gap-2"><span class="text-primary">✓</span> DeepSeek API 驱动角色对话</li>
+              <li class="flex items-center gap-2"><span class="text-primary">✓</span> 可调温度值，控制输出随机性</li>
+              <li class="flex items-center gap-2"><span class="text-primary">✓</span> 角色装扮与任务限定系统</li>
+            </ul>
+          </div>
+        </div>
+        <div class="fade-up grid md:grid-cols-2 gap-8 items-center">
+          <div class="order-2 md:order-1">
+            <div class="flex items-center gap-3 mb-4">
+              <div class="w-10 h-10 rounded-lg bg-pixgold/20 border border-pixgold/40 flex items-center justify-center"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#d29922" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
+              <h3 class="font-serif text-2xl font-bold text-accent">位置发现与诊断</h3>
+            </div>
+            <p class="text-muted leading-relaxed mb-6">采用地理围栏算法构建经纬度矩形包围盒，配合0.0002°容差过滤GPS信号漂移。玩家在现实燕园中寻找线索、比对视角，获得改造灵感与游戏奖励。</p>
+            <ul class="space-y-2 text-sm text-muted">
+              <li class="flex items-center gap-2"><span class="text-pixgold">✓</span> GPS + 地理围栏双重校验</li>
+              <li class="flex items-center gap-2"><span class="text-pixgold">✓</span> "你画我猜"式交互验证</li>
+              <li class="flex items-center gap-2"><span class="text-pixgold">✓</span> 激励玩家观察场地细节</li>
+            </ul>
+          </div>
+          <div class="order-1 md:order-2 rounded-xl overflow-hidden border border-border">
+            <img src="./screenshots/image59.jpeg" alt="位置发现系统" class="w-full object-cover aspect-[4/3] hover:scale-105 transition-transform duration-500">
+          </div>
+        </div>
+        <div class="fade-up grid md:grid-cols-2 gap-8 items-center">
+          <div class="rounded-xl overflow-hidden border border-border">
+            <img src="./screenshots/image54.png" alt="社交共创" class="w-full object-cover aspect-[4/3] hover:scale-105 transition-transform duration-500">
+          </div>
+          <div>
+            <div class="flex items-center gap-3 mb-4">
+              <div class="w-10 h-10 rounded-lg bg-primary/20 border border-primary/40 flex items-center justify-center"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#58a6ff" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+              <h3 class="font-serif text-2xl font-bold text-accent">社交互访与共创</h3>
+            </div>
+            <p class="text-muted leading-relaxed mb-6">好友校园互访机制，拜访彼此的校园，查看不同的改造方案。NPC AI根据访客的装扮和互动产生差异化反应，云端数据实时收集，为现实营建决策提供支持。</p>
+            <ul class="space-y-2 text-sm text-muted">
+              <li class="flex items-center gap-2"><span class="text-primary">✓</span> 好友校园互访与参观</li>
+              <li class="flex items-center gap-2"><span class="text-primary">✓</span> NPC差异化互动响应</li>
+              <li class="flex items-center gap-2"><span class="text-primary">✓</span> 云端数据支撑现实决策</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="gallery" class="py-24 px-6 bg-surface/30">
+    <div class="max-w-6xl mx-auto">
+      <div class="fade-up text-center mb-16">
+        <p class="text-primary text-xs font-mono tracking-widest uppercase mb-4">03 / Gallery</p>
+        <h2 class="section-title center font-serif text-3xl md:text-4xl font-bold text-accent mx-auto">游戏截图</h2>
+      </div>
+      <div class="grid grid-cols-2 md:grid-cols-3 gap-4 fade-up">
+        <div class="gallery-item relative rounded-xl overflow-hidden col-span-2 row-span-2" onclick="openLightbox(this)">
+          <img src="./screenshots/image60.jpeg" alt="游戏主界面" class="w-full h-full object-cover aspect-square">
+          <div class="gallery-caption absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4">
+            <p class="text-accent font-medium">校园主界面</p>
+            <p class="text-muted text-sm">像素风燕园，等距视角</p>
+          </div>
+        </div>
+        <div class="gallery-item relative rounded-xl overflow-hidden" onclick="openLightbox(this)">
+          <img src="./screenshots/image56.png" alt="建造系统" class="w-full h-full object-cover aspect-square">
+          <div class="gallery-caption absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-3">
+            <p class="text-accent text-sm font-medium">网格建造系统</p>
+          </div>
+        </div>
+        <div class="gallery-item relative rounded-xl overflow-hidden" onclick="openLightbox(this)">
+          <img src="./screenshots/image59.jpeg" alt="场景编辑器" class="w-full h-full object-cover aspect-square">
+          <div class="gallery-caption absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-3">
+            <p class="text-accent text-sm font-medium">场景编辑器预览</p>
+          </div>
+        </div>
+        <div class="gallery-item relative rounded-xl overflow-hidden" onclick="openLightbox(this)">
+          <img src="./screenshots/image54.png" alt="校园场景" class="w-full h-full object-cover aspect-square">
+          <div class="gallery-caption absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-3">
+            <p class="text-accent text-sm font-medium">校园地图</p>
+          </div>
+        </div>
+        <div class="gallery-item relative rounded-xl overflow-hidden" onclick="openLightbox(this)">
+          <img src="./screenshots/image35.png" alt="概念设计" class="w-full h-full object-cover aspect-square">
+          <div class="gallery-caption absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-3">
+            <p class="text-accent text-sm font-medium">参与式设计概念</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div id="lightbox" onclick="closeLightbox()">
+    <button class="absolute top-6 right-6 text-white/60 hover:text-white transition-colors">
+      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+    <img id="lightboxImg" src="" alt="">
+  </div>
+
+  <section id="team" class="py-24 px-6">
+    <div class="max-w-4xl mx-auto">
+      <div class="fade-up text-center mb-16">
+        <p class="text-primary text-xs font-mono tracking-widest uppercase mb-4">04 / Team</p>
+        <h2 class="section-title center font-serif text-3xl md:text-4xl font-bold text-accent mx-auto">团队</h2>
+      </div>
+      <div class="fade-up bg-surface rounded-2xl border border-border p-8 md:p-12 text-center">
+        <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-primary/10 border border-primary/30 mb-6">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#58a6ff" stroke-width="1.5"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+        </div>
+        <h3 class="font-serif text-2xl font-bold text-accent mb-3">燕园主理人团队</h3>
+        <p class="text-muted text-lg mb-6">北京大学 · 景观学院</p>
+        <p class="text-muted leading-relaxed max-w-xl mx-auto">四名来自北京大学景观设计专业的学生，致力于探索游戏化工具在公众参与和社区治理中的创新应用，让复杂的城市规划议题变得可触、可感、可持续。</p>
+        <div class="flex items-center justify-center gap-6 mt-8">
+          <div class="text-center"><p class="font-mono text-2xl font-bold text-primary">130+</p><p class="text-muted text-sm">可放置物品</p></div>
+          <div class="w-px h-10 bg-border"></div>
+          <div class="text-center"><p class="font-mono text-2xl font-bold text-pixgreen">15-30</p><p class="text-muted text-sm">分钟游戏循环</p></div>
+          <div class="w-px h-10 bg-border"></div>
+          <div class="text-center"><p class="font-mono text-2xl font-bold text-pixgold">4</p><p class="text-muted text-sm">大核心系统</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="border-t border-border py-16 px-6">
+    <div class="max-w-4xl mx-auto text-center">
+      <div class="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-gradient-to-r from-pixgold/20 to-accent/10 border border-pixgold/40 pulse-badge mb-10">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#d29922" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+        <span class="text-pixgold font-semibold text-sm tracking-wide">下载即将上线</span>
+      </div>
+      <p class="text-muted mb-4">期待与你在燕园相见</p>
+      <div class="flex items-center justify-center gap-2 font-mono text-sm text-muted mb-8">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        <a href="https://www.yanyuanjgr.com" class="hover:text-primary transition-colors">www.yanyuanjgr.com</a>
+      </div>
+      <div class="pixel-grass w-48 mx-auto mb-8 opacity-40"></div>
+      <p class="text-muted/50 text-sm">© 2026 燕园主理人 · 北京大学景观学院 · 课程项目</p>
+    </div>
+  </footer>
+
+  <script>
+    const nav = document.getElementById("navbar");
+    window.addEventListener("scroll", () => {
+      if (window.scrollY > 80) {
+        nav.classList.add("bg-bg/90", "nav-blur", "border-b", "border-border");
+      } else {
+        nav.classList.remove("bg-bg/90", "nav-blur", "border-b", "border-border");
       }
-      requestAnimationFrame(up);
     });
-  }
-  const counterObserver = new IntersectionObserver(entries => {
-    entries.forEach(e => { if (e.isIntersecting && !countersStarted) { countersStarted = true; startCounters(); }});
-  }, { threshold: 0.5 });
-  counters.forEach(c => counterObserver.observe(c));
-</script>
+
+    function toggleMenu() {
+      const m = document.getElementById("mobileMenu");
+      m.classList.toggle("open");
+    }
+
+    function openLightbox(el) {
+      const img = el.querySelector("img");
+      document.getElementById("lightboxImg").src = img.src;
+      document.getElementById("lightbox").classList.add("active");
+      document.body.style.overflow = "hidden";
+    }
+    function closeLightbox() {
+      document.getElementById("lightbox").classList.remove("active");
+      document.body.style.overflow = "";
+    }
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry, i) => {
+        if (entry.isIntersecting) {
+          setTimeout(() => { entry.target.classList.add("visible"); }, i * 80);
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1 });
+    document.querySelectorAll(".fade-up").forEach(el => observer.observe(el));
+
+    // ── 呆呆鸟飞来飞去 ──
+    (function initBird() {
+      const bird = document.getElementById("dumbbird");
+      if (!bird) return;
+
+      // 随机初始速度与位置
+      const vx = (Math.random() > 0.5 ? 1 : -1) * (2 + Math.random() * 2.5);
+      const vy = (Math.random() > 0.5 ? 1 : -1) * (1.5 + Math.random() * 2);
+      let x = 60 + Math.random() * (window.innerWidth - 120);
+      let y = 120 + Math.random() * (window.innerHeight - 240);
+      let curVx = vx, curVy = vy;
+      const size = 48;
+      const wallPadding = 10;
+
+      // 初始位置
+      bird.style.left = x + "px";
+      bird.style.top = y + "px";
+
+      function tick() {
+        x += curVx;
+        y += curVy;
+
+        // 撞墙反弹
+        if (x <= wallPadding) {
+          x = wallPadding;
+          curVx = Math.abs(curVx) * (0.9 + Math.random() * 0.3);
+          curVy += (Math.random() - 0.5) * 1.5; // 撞墙加随机偏转
+          // 随机上下颠倒飞行方向
+          if (Math.random() < 0.3) { curVy = -curVy * 0.9; }
+        }
+        if (x >= window.innerWidth - size - wallPadding) {
+          x = window.innerWidth - size - wallPadding;
+          curVx = -Math.abs(curVx) * (0.9 + Math.random() * 0.3);
+          curVy += (Math.random() - 0.5) * 1.5;
+          if (Math.random() < 0.3) { curVy = -curVy * 0.9; }
+        }
+        if (y <= wallPadding) {
+          y = wallPadding;
+          curVy = Math.abs(curVy);
+        }
+        if (y >= window.innerHeight - size - wallPadding) {
+          y = window.innerHeight - size - wallPadding;
+          curVy = -Math.abs(curVy);
+        }
+
+        // 速度上下限，防止太快或太慢
+        const speed = Math.sqrt(curVx * curVx + curVy * curVy);
+        const minSpeed = 1.5, maxSpeed = 5;
+        if (speed < minSpeed) { curVx = (curVx / speed) * minSpeed; curVy = (curVy / speed) * minSpeed; }
+        if (speed > maxSpeed) { curVx = (curVx / speed) * maxSpeed; curVy = (curVy / speed) * maxSpeed; }
+
+        // 碰壁时短暂"惊呆"缩放效果
+        bird.style.transform = `scale(${0.9 + Math.random() * 0.1})`;
+
+        bird.style.left = x + "px";
+        bird.style.top = y + "px";
+
+        requestAnimationFrame(tick);
+      }
+
+      requestAnimationFrame(tick);
+    })();
+  </script>
 </body>
 </html>
