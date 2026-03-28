@@ -55,18 +55,6 @@
     .section-title::after { content: ""; display: block; width: 60px; height: 2px; background: linear-gradient(90deg, #58a6ff, transparent); margin-top: 12px; }
     .section-title.center::after { margin-left: auto; margin-right: auto; }
     .pixel-grass { height: 8px; background: repeating-linear-gradient(90deg, #3fb950 0px, #3fb950 8px, #2ea043 8px, #2ea043 12px, transparent 12px, transparent 16px); opacity: 0.6; }
-    #dumbbird {
-      position: fixed;
-      font-size: 48px;
-      line-height: 1;
-      z-index: 9999;
-      pointer-events: none;
-      filter: drop-shadow(0 4px 12px rgba(0,0,0,0.5));
-      transition: transform 0.05s linear;
-      user-select: none;
-    }
-    @keyframes birdBob { 0%,100% { transform: translateY(0) rotate(0deg); } 25% { transform: translateY(-6px) rotate(-5deg); } 75% { transform: translateY(4px) rotate(5deg); } }
-    .bird-bob { animation: birdBob 0.6s ease-in-out infinite; }
     .mobile-menu { transform: translateX(100%); transition: transform 0.3s ease-out; }
     .mobile-menu.open { transform: translateX(0); }
     #lightbox { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.92); z-index: 100; align-items: center; justify-content: center; }
@@ -75,8 +63,6 @@
   </style>
 </head>
 <body class="antialiased overflow-x-hidden">
-
-  <div id="dumbbird" class="bird-bob" style="left:0;top:0;">🐦</div>
 
   <nav id="navbar" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300">
     <div class="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
@@ -369,69 +355,6 @@
       });
     }, { threshold: 0.1 });
     document.querySelectorAll(".fade-up").forEach(el => observer.observe(el));
-
-    // ── 呆呆鸟飞来飞去 ──
-    (function initBird() {
-      const bird = document.getElementById("dumbbird");
-      if (!bird) return;
-
-      // 随机初始速度与位置
-      const vx = (Math.random() > 0.5 ? 1 : -1) * (2 + Math.random() * 2.5);
-      const vy = (Math.random() > 0.5 ? 1 : -1) * (1.5 + Math.random() * 2);
-      let x = 60 + Math.random() * (window.innerWidth - 120);
-      let y = 120 + Math.random() * (window.innerHeight - 240);
-      let curVx = vx, curVy = vy;
-      const size = 48;
-      const wallPadding = 10;
-
-      // 初始位置
-      bird.style.left = x + "px";
-      bird.style.top = y + "px";
-
-      function tick() {
-        x += curVx;
-        y += curVy;
-
-        // 撞墙反弹
-        if (x <= wallPadding) {
-          x = wallPadding;
-          curVx = Math.abs(curVx) * (0.9 + Math.random() * 0.3);
-          curVy += (Math.random() - 0.5) * 1.5; // 撞墙加随机偏转
-          // 随机上下颠倒飞行方向
-          if (Math.random() < 0.3) { curVy = -curVy * 0.9; }
-        }
-        if (x >= window.innerWidth - size - wallPadding) {
-          x = window.innerWidth - size - wallPadding;
-          curVx = -Math.abs(curVx) * (0.9 + Math.random() * 0.3);
-          curVy += (Math.random() - 0.5) * 1.5;
-          if (Math.random() < 0.3) { curVy = -curVy * 0.9; }
-        }
-        if (y <= wallPadding) {
-          y = wallPadding;
-          curVy = Math.abs(curVy);
-        }
-        if (y >= window.innerHeight - size - wallPadding) {
-          y = window.innerHeight - size - wallPadding;
-          curVy = -Math.abs(curVy);
-        }
-
-        // 速度上下限，防止太快或太慢
-        const speed = Math.sqrt(curVx * curVx + curVy * curVy);
-        const minSpeed = 1.5, maxSpeed = 5;
-        if (speed < minSpeed) { curVx = (curVx / speed) * minSpeed; curVy = (curVy / speed) * minSpeed; }
-        if (speed > maxSpeed) { curVx = (curVx / speed) * maxSpeed; curVy = (curVy / speed) * maxSpeed; }
-
-        // 碰壁时短暂"惊呆"缩放效果
-        bird.style.transform = `scale(${0.9 + Math.random() * 0.1})`;
-
-        bird.style.left = x + "px";
-        bird.style.top = y + "px";
-
-        requestAnimationFrame(tick);
-      }
-
-      requestAnimationFrame(tick);
-    })();
   </script>
 </body>
 </html>
